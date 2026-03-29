@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Skills Library - コンテンツ販売スキル100選</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #12121a;
+    --bg-card: #1a1a2e;
+    --bg-card-hover: #222240;
+    --bg-modal: #16162a;
+    --text-primary: #e8e8f0;
+    --text-secondary: #8888a0;
+    --text-muted: #55556a;
+    --accent-1: #6c5ce7;
+    --accent-2: #a29bfe;
+    --accent-3: #fd79a8;
+    --accent-4: #00cec9;
+    --accent-5: #fdcb6e;
+    --accent-6: #55efc4;
+    --accent-7: #74b9ff;
+    --accent-8: #ff7675;
+    --border: #2a2a40;
+    --shadow: 0 4px 24px rgba(0,0,0,0.4);
+    --shadow-lg: 0 8px 48px rgba(0,0,0,0.6);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  body {
+    font-family: 'Noto Sans JP', 'Inter', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background animation */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at 20% 50%, rgba(108,92,231,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(253,121,168,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(0,206,201,0.05) 0%, transparent 50%);
+    z-index: 0;
+    animation: bgFloat 20s ease-in-out infinite;
+  }
+
+  @keyframes bgFloat {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-2%, -1%); }
+  }
+
+  /* Header */
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .logo {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+  }
+
+  .header-title {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+  }
+
+  .header-subtitle {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .search-box {
+    position: relative;
+    width: 320px;
+  }
+
+  .search-box input {
+    width: 100%;
+    padding: 10px 16px 10px 42px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.3s;
+  }
+
+  .search-box input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .search-box input:focus {
+    border-color: var(--accent-1);
+    box-shadow: 0 0 0 3px rgba(108,92,231,0.15);
+  }
+
+  .search-box .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 16px;
+  }
+
+  .stats-badge {
+    padding: 8px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .stats-badge span {
+    color: var(--accent-2);
+    font-weight: 600;
+  }
+
+  .download-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    background: linear-gradient(135deg, var(--accent-1), #8b5cf6);
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .download-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(108,92,231,0.4);
+  }
+
+  /* Main Layout */
+  .app {
+    display: flex;
+    padding-top: 72px;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 280px;
+    min-width: 280px;
+    height: calc(100vh - 72px);
+    position: fixed;
+    top: 72px;
+    left: 0;
+    background: rgba(18,18,26,0.6);
+    backdrop-filter: blur(10px);
+    border-right: 1px solid var(--border);
+    padding: 24px 16px;
+    overflow-y: auto;
+    z-index: 50;
+  }
+
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-track { background: transparent; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .sidebar-section-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    padding-left: 12px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nav-item:hover {
+    background: rgba(108,92,231,0.08);
+  }
+
+  .nav-item.active {
+    background: rgba(108,92,231,0.12);
+  }
+
+  .nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 3px;
+    background: var(--accent-1);
+    border-radius: 0 3px 3px 0;
+  }
+
+  .nav-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .nav-label {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  .nav-count {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* Main Content */
+  .main {
+    flex: 1;
+    margin-left: 280px;
+    padding: 32px;
+    max-width: calc(100% - 280px);
+  }
+
+  /* Category Header */
+  .category-header {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .category-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .category-header p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  /* Skills Grid */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 16px;
+  }
+
+  .skill-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .skill-card:hover {
+    background: var(--bg-card-hover);
+    border-color: rgba(108,92,231,0.3);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+
+  .skill-card:hover::before {
+    opacity: 1;
+  }
+
+  .skill-number {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .skill-number .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .skill-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    letter-spacing: -0.2px;
+  }
+
+  .skill-card .skill-preview {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .skill-card .skill-tag {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    z-index: 200;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+  }
+
+  .modal-overlay.active {
+    display: flex;
+  }
+
+  .modal {
+    background: var(--bg-modal);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 720px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    animation: modalIn 0.3s ease;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .modal::-webkit-scrollbar { width: 6px; }
+  .modal::-webkit-scrollbar-track { background: transparent; }
+  .modal::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .modal-header {
+    padding: 28px 32px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: sticky;
+    top: 0;
+    background: var(--bg-modal);
+    z-index: 10;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .modal-header h2 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    line-height: 1.3;
+    padding-right: 16px;
+  }
+
+  .modal-header .modal-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .modal-close {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .modal-close:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+  }
+
+  .modal-body {
+    padding: 28px 32px 32px;
+  }
+
+  .modal-body .prompt-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .modal-body .prompt-text {
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 20px 24px;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-primary);
+    white-space: pre-wrap;
+    position: relative;
+  }
+
+  .modal-body .prompt-text .placeholder {
+    color: var(--accent-3);
+    background: rgba(253,121,168,0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  .copy-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, var(--accent-1), #8b5cf6);
+    border: none;
+    border-radius: var(--radius-sm);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .copy-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(108,92,231,0.4);
+  }
+
+  .copy-btn.copied {
+    background: linear-gradient(135deg, var(--accent-4), var(--accent-6));
+  }
+
+  /* Category colors */
+  .cat-0 .nav-icon { background: rgba(108,92,231,0.15); color: var(--accent-1); }
+  .cat-0 .dot, .cat-0 .skill-tag { background: rgba(108,92,231,0.15); color: var(--accent-1); }
+  .cat-0 .skill-card::before { background: linear-gradient(90deg, var(--accent-1), transparent); }
+
+  .cat-1 .nav-icon { background: rgba(253,121,168,0.15); color: var(--accent-3); }
+  .cat-1 .dot, .cat-1 .skill-tag { background: rgba(253,121,168,0.15); color: var(--accent-3); }
+  .cat-1 .skill-card::before { background: linear-gradient(90deg, var(--accent-3), transparent); }
+
+  .cat-2 .nav-icon { background: rgba(0,206,201,0.15); color: var(--accent-4); }
+  .cat-2 .dot, .cat-2 .skill-tag { background: rgba(0,206,201,0.15); color: var(--accent-4); }
+  .cat-2 .skill-card::before { background: linear-gradient(90deg, var(--accent-4), transparent); }
+
+  .cat-3 .nav-icon { background: rgba(253,203,110,0.15); color: var(--accent-5); }
+  .cat-3 .dot, .cat-3 .skill-tag { background: rgba(253,203,110,0.15); color: var(--accent-5); }
+  .cat-3 .skill-card::before { background: linear-gradient(90deg, var(--accent-5), transparent); }
+
+  .cat-4 .nav-icon { background: rgba(85,239,196,0.15); color: var(--accent-6); }
+  .cat-4 .dot, .cat-4 .skill-tag { background: rgba(85,239,196,0.15); color: var(--accent-6); }
+  .cat-4 .skill-card::before { background: linear-gradient(90deg, var(--accent-6), transparent); }
+
+  .cat-5 .nav-icon { background: rgba(116,185,255,0.15); color: var(--accent-7); }
+  .cat-5 .dot, .cat-5 .skill-tag { background: rgba(116,185,255,0.15); color: var(--accent-7); }
+  .cat-5 .skill-card::before { background: linear-gradient(90deg, var(--accent-7), transparent); }
+
+  .cat-6 .nav-icon { background: rgba(162,155,254,0.15); color: var(--accent-2); }
+  .cat-6 .dot, .cat-6 .skill-tag { background: rgba(162,155,254,0.15); color: var(--accent-2); }
+  .cat-6 .skill-card::before { background: linear-gradient(90deg, var(--accent-2), transparent); }
+
+  .cat-7 .nav-icon { background: rgba(255,118,117,0.15); color: var(--accent-8); }
+  .cat-7 .dot, .cat-7 .skill-tag { background: rgba(255,118,117,0.15); color: var(--accent-8); }
+  .cat-7 .skill-card::before { background: linear-gradient(90deg, var(--accent-8), transparent); }
+
+  /* All skills view */
+  .all-view .category-section {
+    margin-bottom: 48px;
+  }
+
+  .all-view .category-section-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* No results */
+  .no-results {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-muted);
+  }
+
+  .no-results .icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  .no-results p {
+    font-size: 16px;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; max-width: 100%; }
+    .skills-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  }
+
+  @media (max-width: 768px) {
+    .header { padding: 0 16px; }
+    .search-box { width: 200px; }
+    .stats-badge { display: none; }
+    .main { padding: 20px; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .modal-overlay { padding: 20px; }
+    .modal-header, .modal-body { padding-left: 20px; padding-right: 20px; }
+  }
+
+  /* Mobile nav toggle */
+  .mobile-nav-toggle {
+    display: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  @media (max-width: 1024px) {
+    .mobile-nav-toggle { display: flex; }
+    .sidebar.mobile-open {
+      display: block;
+      z-index: 150;
+      background: var(--bg-secondary);
+    }
+  }
+
+  .fade-in {
+    animation: fadeIn 0.4s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <button class="mobile-nav-toggle" onclick="toggleMobileNav()">☰</button>
+    <div class="logo">S</div>
+    <div>
+      <div class="header-title">Skills Library</div>
+      <div class="header-subtitle">コンテンツ販売スキル100選</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="search-box">
+      <span class="search-icon">⌕</span>
+      <input type="text" id="searchInput" placeholder="スキルを検索..." oninput="handleSearch(this.value)">
+    </div>
+    <div class="stats-badge">
+      全 <span id="visibleCount">100</span> スキル
+    </div>
+    <button class="download-btn" onclick="downloadHTML()">⬇ ダウンロード</button>
+  </div>
+</header>
+
+<div class="app">
+  <nav class="sidebar" id="sidebar"><div class="sidebar-section-title">カテゴリ</div><div class="nav-item active cat-0" onclick="selectCategory(-1)">
+    <div class="nav-icon" style="background:rgba(108,92,231,0.12);color:var(--accent-2);">☷</div>
+    <div><div class="nav-label">すべてのスキル</div><div class="nav-count">100 スキル</div></div>
+  </div><div class="nav-item cat-0 " onclick="selectCategory(0)">
+      <div class="nav-icon">📱</div>
+      <div><div class="nav-label">SNS投稿</div><div class="nav-count">15 スキル</div></div>
+    </div><div class="nav-item cat-1 " onclick="selectCategory(1)">
+      <div class="nav-icon">📝</div>
+      <div><div class="nav-label">note記事</div><div class="nav-count">13 スキル</div></div>
+    </div><div class="nav-item cat-2 " onclick="selectCategory(2)">
+      <div class="nav-icon">💬</div>
+      <div><div class="nav-label">LINE公式アカウント</div><div class="nav-count">14 スキル</div></div>
+    </div><div class="nav-item cat-3 " onclick="selectCategory(3)">
+      <div class="nav-icon">🎯</div>
+      <div><div class="nav-label">商品設計・販売戦略</div><div class="nav-count">14 スキル</div></div>
+    </div><div class="nav-item cat-4 " onclick="selectCategory(4)">
+      <div class="nav-icon">📈</div>
+      <div><div class="nav-label">集客・マーケティング戦略</div><div class="nav-count">12 スキル</div></div>
+    </div><div class="nav-item cat-5 " onclick="selectCategory(5)">
+      <div class="nav-icon">🧠</div>
+      <div><div class="nav-label">心理学・コピーライティング</div><div class="nav-count">12 スキル</div></div>
+    </div><div class="nav-item cat-6 " onclick="selectCategory(6)">
+      <div class="nav-icon">⚙️</div>
+      <div><div class="nav-label">業務効率化・コンテンツ管理</div><div class="nav-count">12 スキル</div></div>
+    </div><div class="nav-item cat-7 " onclick="selectCategory(7)">
+      <div class="nav-icon">🎓</div>
+      <div><div class="nav-label">教育コンテンツ・コーチング</div><div class="nav-count">8 スキル</div></div>
+    </div></nav>
+  <main class="main" id="mainContent"><div class="all-view fade-in"><div class="category-section cat-0">
+        <div class="category-section-title">📱 SNS投稿 <span style="color:var(--text-muted);font-size:14px;font-weight:400;margin-left:4px;">01〜15</span></div>
+        <div class="skills-grid"><div class="skill-card cat-0" onclick="openModal(1)">
+    <div class="skill-number"><span class="dot"></span>Skill 01</div>
+    <h3>スレッズ投稿作成（基本）</h3>
+    <div class="skill-preview">レオのライティングスタイルを使って、Threads投稿を200〜300文字で作成してください。テーマは「___」です。共感フックから始め、問題提起→解決策→CTAの順で構成し、「します」「あります」「です」が連続しないよう自然なリズムで書い...</div>
+    <span class="skill-tag">SNS投稿</span>
+  </div><div class="skill-card cat-0" onclick="openModal(2)">
+    <div class="skill-number"><span class="dot"></span>Skill 02</div>
+    <h3>バズるフック文作成</h3>
+    <div class="skill-preview">Threadsでバズる冒頭フック文を5パターン作成してください。テーマは「___」です。読者が思わず「続きを読みたい」と感じる、心理的ひっかかりを意識した1〜2行のフック文を出力してください。各パターンに使っている心理トリガー（好奇心・損失...</div>
+    <span class="skill-tag">SNS投稿</span>
+  </div><div class="skill-card cat-0" onclick="openModal(3)">
+    <div class="skill-number"><span class="dot"></span>Skill 03</div>
+    <h3>note記事タイトル生成</h3>
+    <div class="skill-preview">noteで読まれる記事タイトルを10個作成してください。テーマは「___」、ターゲットは「___」です。数字・ベネフィット・ネガティブワードを組み合わせ、クリックしたくなるタイトルを出力してください。...</div>
+    <span class="skill-tag">SNS投稿</span>
+  </div><div class="skill-card cat-0" onclick="openModal(4)">
+    <div class="skill-number"><span class="dot"></span>Skill 04</div>
+    <h3>Threads連投（スレッド）構成</h3>
+    <div class="skill-preview">Threadsのスレッド形式（連投）で使えるコンテンツを作成してください。テーマは「___」です。1投稿目：フック、2〜4投稿目：本題の展開、5投稿目：CTA という構成で、各投稿150文字前後で作成してください。...</div>
+    <span class="skill-tag">SNS投稿</span>
+  </div><div class="skill-card cat-0" onclick="openModal(5)">
+    <div class="skill-number"><span class="dot"></span>Skill 05</div>
+    <h3>週間投稿カレンダー作成</h3>
+    <div class="skill-preview">「___」をテーマにした、1週間分（7日間）のThreads投稿カレンダーを作成してください。各日のテーマ・投稿の狙い（認知/信頼/販売）・投稿文の要点を表形式でまとめてください。...</div>
+    <span class="skill-tag">SNS投稿</span>
+  </div><div class="skill-card cat-0" onclick="openModal(6)">
+    <div class="skill-number"><span class="dot"></span>Skill 06</div>
+    <h3>バズ投稿リライト</h3>
+    <div class="skill-preview">以下の投稿文をリライトして、エンゲージメントが上がるバージョンに改善してください。
+
+___
+
+改善ポイントも箇条書きで教えてください。...</div>
+    <span class="skill-tag">SNS投稿</span>
+  </div><div class="skill-card cat-0" onclick="openModal(7)">
+    <div class="skill-number"><span class="dot"></span>Skill 07</div>
+    <h3>教育コンテンツ投稿（価値提供型）</h3>
+    <div class="skill-preview">「___」について、フォロワーに価値を提供する教育型投稿を作成してください。300文字程度で、読んだだけで一つ学べる内容にしてください。「これ知らなかった」と思わせる切り口で書いてください。...</div>
+    <span class="skill-tag">SNS投稿</span>
+  </div><div class="skill-card cat-0" onclick="openModal(8)">
+    <div class="skill-number"><span class="dot"></span>Skill 08</div>
+    <h3>共感投稿（ペルソナの悩みを代弁）</h3>
+    <div class="skill-preview">ターゲット「___」が感じている悩みや葛藤を代弁する共感投稿を200文字で作成してください。「あるある」と感じさせ、最後にそっとフォロー誘導するCTAを添えてください。...</div>
+    <span class="skill-tag">SNS投稿</span>
+  </div><div class="skill-card cat-0" onclick="openModal(9)">
+    <div class="skill-number"><span class="dot"></span>Skill 09</div>
+    <h3>実績・事例投稿</h3>
+    <div class="skill-preview">以下の実績や事例をもとに、信頼構築に使えるThreads投稿を作成してください。
+
+実績：___
+
+読者に「この人についていきたい」と感じさせる書き方で、自慢にならないよう自然に数字や結果を伝えてください。...</div>
+    <span class="skill-tag">SNS投稿</span>
+  </div><div class="skill-card cat-0" onclick="openModal(10)">
+    <div class="skill-number"><span class="dot"></span>Skill 10</div>
+    <h3>Before/After投稿</h3>
+    <div class="skill-preview">「___」に関するBefore/After型の投稿を作成してください。変化前の状態→きっかけ→変化後の状態の流れで、読者が自分ゴトとして読める内容にしてください。300文字程度。...</div>
+    <span class="skill-tag">SNS投稿</span>
+  </div><div class="skill-card cat-0" onclick="openModal(11)">
+    <div class="skill-number"><span class="dot"></span>Skill 11</div>
+    <h3>問いかけ型エンゲージメント投稿</h3>
+    <div class="skill-preview">フォロワーとの対話を生む「問いかけ型」投稿を作成してください。テーマは「___」です。答えやすいシンプルな質問で終わらせ、コメントが来やすい設計にしてください。150文字程度。...</div>
+    <span class="skill-tag">SNS投稿</span>
+  </div><div class="skill-card cat-0" onclick="openModal(12)">
+    <div class="skill-number"><span class="dot"></span>Skill 12</div>
+    <h3>トレンド便乗投稿</h3>
+    <div class="skill-preview">現在のSNSトレンドやニュースと「___」を結びつけた投稿を作成してください。トレンド：「___」。読者の注目を引きながら、自分のビジネスへの関心に誘導してください。...</div>
+    <span class="skill-tag">SNS投稿</span>
+  </div><div class="skill-card cat-0" onclick="openModal(13)">
+    <div class="skill-number"><span class="dot"></span>Skill 13</div>
+    <h3>反論返し投稿（アンチ対策）</h3>
+    <div class="skill-preview">「___」に対してよくある反論や疑問を先手で取り上げ、誠実に返答する投稿を作成してください。「〜と思う人もいるかもしれません。でも〜」という構成で書いてください。...</div>
+    <span class="skill-tag">SNS投稿</span>
+  </div><div class="skill-card cat-0" onclick="openModal(14)">
+    <div class="skill-number"><span class="dot"></span>Skill 14</div>
+    <h3>日常エピソード→ビジネス学び変換投稿</h3>
+    <div class="skill-preview">以下の日常エピソードから、ビジネスや生き方の学びを引き出す投稿を作成してください。
+
+エピソード：___
+
+読者が「そういう見方があるのか」と感じる変換を意識してください。...</div>
+    <span class="skill-tag">SNS投稿</span>
+  </div><div class="skill-card cat-0" onclick="openModal(15)">
+    <div class="skill-number"><span class="dot"></span>Skill 15</div>
+    <h3>フォロー誘導CTA投稿</h3>
+    <div class="skill-preview">「___」についてのフォロー誘導投稿を作成してください。このアカウントをフォローすることで何が得られるかを明確に伝え、フォローしたくなるCTAで締めてください。200文字程度。...</div>
+    <span class="skill-tag">SNS投稿</span>
+  </div></div>
+      </div><div class="category-section cat-1">
+        <div class="category-section-title">📝 note記事 <span style="color:var(--text-muted);font-size:14px;font-weight:400;margin-left:4px;">16〜28</span></div>
+        <div class="skills-grid"><div class="skill-card cat-1" onclick="openModal(16)">
+    <div class="skill-number"><span class="dot"></span>Skill 16</div>
+    <h3>note無料記事（集客用）本文作成</h3>
+    <div class="skill-preview">以下のテーマでnote無料記事を作成してください。
+
+テーマ：___
+ターゲット：___
+記事のゴール：___
+
+1500〜2000文字で、【見出し】形式を使い、最後にCTAを入れてください。...</div>
+    <span class="skill-tag">note記事</span>
+  </div><div class="skill-card cat-1" onclick="openModal(17)">
+    <div class="skill-number"><span class="dot"></span>Skill 17</div>
+    <h3>note有料記事（販売用）構成作成</h3>
+    <div class="skill-preview">「___」についての有料note記事の構成を作成してください。
+
+タイトル・無料パートの内容（何を見せて何を隠すか）・有料パートの章立て・購入後のCTAまでを設計してください。価格帯は「___」円を想定しています。...</div>
+    <span class="skill-tag">note記事</span>
+  </div><div class="skill-card cat-1" onclick="openModal(18)">
+    <div class="skill-number"><span class="dot"></span>Skill 18</div>
+    <h3>noteタイトルA/Bテスト</h3>
+    <div class="skill-preview">同じ記事に対して、全く異なるアプローチのタイトルを2パターン作成し、それぞれの強みと想定クリック率を比較してください。
+
+記事テーマ：___
+ターゲット：___...</div>
+    <span class="skill-tag">note記事</span>
+  </div><div class="skill-card cat-1" onclick="openModal(19)">
+    <div class="skill-number"><span class="dot"></span>Skill 19</div>
+    <h3>note記事冒頭（リード文）作成</h3>
+    <div class="skill-preview">noteの記事冒頭（リード文）を300文字で作成してください。読者が「全部読みたい」と感じるような問題提起と、記事を読むことで得られるベネフィットを明示してください。
+
+テーマ：___...</div>
+    <span class="skill-tag">note記事</span>
+  </div><div class="skill-card cat-1" onclick="openModal(20)">
+    <div class="skill-number"><span class="dot"></span>Skill 20</div>
+    <h3>note記事見出し設計</h3>
+    <div class="skill-preview">「___」のnote記事の見出し構成を設計してください。全体の流れ・各見出しの役割・読者が得られる学びを一覧で出力してください。見出しは7〜10個程度で。...</div>
+    <span class="skill-tag">note記事</span>
+  </div><div class="skill-card cat-1" onclick="openModal(21)">
+    <div class="skill-number"><span class="dot"></span>Skill 21</div>
+    <h3>note記事まとめ・CTA文作成</h3>
+    <div class="skill-preview">noteの記事末尾に使えるまとめ文とCTA（行動喚起）を作成してください。
+
+記事テーマ：___
+次のアクション：___
+
+200〜300文字程度で、押しつけがましくなく自然な誘導文にしてください。...</div>
+    <span class="skill-tag">note記事</span>
+  </div><div class="skill-card cat-1" onclick="openModal(22)">
+    <div class="skill-number"><span class="dot"></span>Skill 22</div>
+    <h3>note固定記事（プロフィール代わり）作成</h3>
+    <div class="skill-preview">自己紹介＋価値提供の固定note記事を作成してください。
+
+自分のプロフィール：___
+
+読者が初めてアカウントに来たとき「フォローしよう」「LINE登録しよう」と感じる内容にしてください。1000文字程度。...</div>
+    <span class="skill-tag">note記事</span>
+  </div><div class="skill-card cat-1" onclick="openModal(23)">
+    <div class="skill-number"><span class="dot"></span>Skill 23</div>
+    <h3>note有料記事のサンプル（無料公開部分）作成</h3>
+    <div class="skill-preview">有料noteのティザー（無料公開）部分を作成してください。
+
+有料記事のテーマ：___
+価格：___円
+
+読者が「続きが気になる」と感じ、購入ボタンを押したくなる引きで終わらせてください。700〜900文字。...</div>
+    <span class="skill-tag">note記事</span>
+  </div><div class="skill-card cat-1" onclick="openModal(24)">
+    <div class="skill-number"><span class="dot"></span>Skill 24</div>
+    <h3>noteシリーズ記事の企画設計</h3>
+    <div class="skill-preview">「___」をシリーズ化したnote記事の企画を設計してください。全何記事構成か、各記事のタイトル・内容・無料/有料の分け方・シリーズ全体のゴールを提案してください。...</div>
+    <span class="skill-tag">note記事</span>
+  </div><div class="skill-card cat-1" onclick="openModal(25)">
+    <div class="skill-number"><span class="dot"></span>Skill 25</div>
+    <h3>note記事の検索SEOタイトル最適化</h3>
+    <div class="skill-preview">以下のnoteタイトルを、noteの検索で上位表示されやすいタイトルにリライトしてください。
+
+元のタイトル：___
+ターゲットキーワード：___
+
+リライト後のタイトルと、改善理由も教えてください。...</div>
+    <span class="skill-tag">note記事</span>
+  </div><div class="skill-card cat-1" onclick="openModal(26)">
+    <div class="skill-number"><span class="dot"></span>Skill 26</div>
+    <h3>note記事の書き出し3パターン比較</h3>
+    <div class="skill-preview">「___」のnote記事の書き出しを、以下の3スタイルで作成してください。
+
+①共感型（読者の悩みから入る）
+②問いかけ型（疑問文から入る）
+③ストーリー型（体験談から入る）
+
+各パターン150文字程度。...</div>
+    <span class="skill-tag">note記事</span>
+  </div><div class="skill-card cat-1" onclick="openModal(27)">
+    <div class="skill-number"><span class="dot"></span>Skill 27</div>
+    <h3>note記事レビュー＆改善提案</h3>
+    <div class="skill-preview">以下のnote記事（または草稿）を読んで、改善点と修正案を提案してください。
+
+___
+
+評価ポイント：タイトル・冒頭・構成・CTA・文章リズムの5点で採点し、改善案を具体的に出してください。...</div>
+    <span class="skill-tag">note記事</span>
+  </div><div class="skill-card cat-1" onclick="openModal(28)">
+    <div class="skill-number"><span class="dot"></span>Skill 28</div>
+    <h3>note記事のプロモーション投稿作成</h3>
+    <div class="skill-preview">公開したnote記事をThreadsで宣伝する投稿を作成してください。
+
+記事タイトル：___
+記事の要点：___
+
+読みたくなる紹介文を200文字で作成し、記事URLへの誘導CTAで締めてください。...</div>
+    <span class="skill-tag">note記事</span>
+  </div></div>
+      </div><div class="category-section cat-2">
+        <div class="category-section-title">💬 LINE公式アカウント <span style="color:var(--text-muted);font-size:14px;font-weight:400;margin-left:4px;">29〜42</span></div>
+        <div class="skills-grid"><div class="skill-card cat-2" onclick="openModal(29)">
+    <div class="skill-number"><span class="dot"></span>Skill 29</div>
+    <h3>LINEウェルカムメッセージ作成</h3>
+    <div class="skill-preview">LINE公式アカウントに登録した直後に届くウェルカムメッセージを作成してください。
+
+アカウントのテーマ：___
+次のアクション（登録特典など）：___
+
+親しみやすく、次の行動が明確に伝わる250文字程度のメッセージにしてください。...</div>
+    <span class="skill-tag">LINE公式アカウント</span>
+  </div><div class="skill-card cat-2" onclick="openModal(30)">
+    <div class="skill-number"><span class="dot"></span>Skill 30</div>
+    <h3>LINEステップ配信（Day1〜7）設計</h3>
+    <div class="skill-preview">「___」を販売するためのLINEステップ配信7日間のシナリオを設計してください。
+
+各日のテーマ・配信目的（信頼構築/教育/販売）・メッセージの要点を一覧で出力してください。...</div>
+    <span class="skill-tag">LINE公式アカウント</span>
+  </div><div class="skill-card cat-2" onclick="openModal(31)">
+    <div class="skill-number"><span class="dot"></span>Skill 31</div>
+    <h3>LINEステップ配信メッセージ本文作成</h3>
+    <div class="skill-preview">以下の条件でLINEステップ配信の本文を作成してください。
+
+配信日：Day___
+テーマ：___
+目的：___
+文字数：200〜250文字
+
+読者が返信したくなる問いかけか、次のアクションへ誘導するCTAで締めてください。...</div>
+    <span class="skill-tag">LINE公式アカウント</span>
+  </div><div class="skill-card cat-2" onclick="openModal(32)">
+    <div class="skill-number"><span class="dot"></span>Skill 32</div>
+    <h3>LINEセールスメッセージ作成</h3>
+    <div class="skill-preview">「___」を販売するLINEセールスメッセージをPASONA構成で作成してください。
+
+商品：___
+価格：___
+ターゲット：___
+セール期間：___
+
+500文字以内で、押しつけがましくなく行動を促す文章にしてください。...</div>
+    <span class="skill-tag">LINE公式アカウント</span>
+  </div><div class="skill-card cat-2" onclick="openModal(33)">
+    <div class="skill-number"><span class="dot"></span>Skill 33</div>
+    <h3>LINE限定コンテンツ告知文作成</h3>
+    <div class="skill-preview">LINE登録者限定で配布するコンテンツの告知メッセージを作成してください。
+
+配布物：___
+内容：___
+
+登録してよかったと感じさせる価値提供の文章を200文字で作成してください。...</div>
+    <span class="skill-tag">LINE公式アカウント</span>
+  </div><div class="skill-card cat-2" onclick="openModal(34)">
+    <div class="skill-number"><span class="dot"></span>Skill 34</div>
+    <h3>LINE読者との関係構築メッセージ作成</h3>
+    <div class="skill-preview">売り込みなしで読者との信頼関係を深めるLINEメッセージを作成してください。
+
+テーマ：___
+文字数：150〜200文字
+
+自然な会話感覚で、返信が来やすい内容にしてください。...</div>
+    <span class="skill-tag">LINE公式アカウント</span>
+  </div><div class="skill-card cat-2" onclick="openModal(35)">
+    <div class="skill-number"><span class="dot"></span>Skill 35</div>
+    <h3>LINEアンケートメッセージ作成</h3>
+    <div class="skill-preview">読者のニーズを把握するためのLINEアンケートメッセージを作成してください。
+
+知りたいこと：___
+
+回答しやすいシンプルな選択肢付きで、200文字以内にまとめてください。...</div>
+    <span class="skill-tag">LINE公式アカウント</span>
+  </div><div class="skill-card cat-2" onclick="openModal(36)">
+    <div class="skill-number"><span class="dot"></span>Skill 36</div>
+    <h3>LINE登録誘導のThreads投稿作成</h3>
+    <div class="skill-preview">LINE公式アカウントへの登録を促すThreads投稿を作成してください。
+
+LINE登録の特典：___
+ターゲット：___
+
+プレゼント感・限定感を出しながら、自然に登録を誘導する300文字の投稿にしてください。...</div>
+    <span class="skill-tag">LINE公式アカウント</span>
+  </div><div class="skill-card cat-2" onclick="openModal(37)">
+    <div class="skill-number"><span class="dot"></span>Skill 37</div>
+    <h3>LINEリマインダーメッセージ（締め切り前）作成</h3>
+    <div class="skill-preview">販売の締め切り前に送るリマインダーLINEメッセージを作成してください。
+
+商品：___
+締め切り：___
+残り枠/残り時間：___
+
+焦りを煽りすぎず、背中を押せる200文字程度のメッセージにしてください。...</div>
+    <span class="skill-tag">LINE公式アカウント</span>
+  </div><div class="skill-card cat-2" onclick="openModal(38)">
+    <div class="skill-number"><span class="dot"></span>Skill 38</div>
+    <h3>LINE購入者フォローメッセージ作成</h3>
+    <div class="skill-preview">商品購入直後に送るお礼＆フォローメッセージを作成してください。
+
+商品：___
+次のステップ：___
+
+購入して正解だったと感じさせる温かみのある250文字のメッセージにしてください。...</div>
+    <span class="skill-tag">LINE公式アカウント</span>
+  </div><div class="skill-card cat-2" onclick="openModal(39)">
+    <div class="skill-number"><span class="dot"></span>Skill 39</div>
+    <h3>LINE定期配信ネタ出し</h3>
+    <div class="skill-preview">「___」のLINE定期配信で使えるネタを30個出してください。
+
+ネタのカテゴリ：教育系・共感系・販売系・エンタメ系に分類して一覧で出力してください。...</div>
+    <span class="skill-tag">LINE公式アカウント</span>
+  </div><div class="skill-card cat-2" onclick="openModal(40)">
+    <div class="skill-number"><span class="dot"></span>Skill 40</div>
+    <h3>LINE読者の疑問・よくある質問への返答文作成</h3>
+    <div class="skill-preview">「___」に対してよく来る質問への回答メッセージを作成してください。
+
+質問：___
+
+読者の不安を払拭し、次のアクションにつながる返答文を200文字で作成してください。...</div>
+    <span class="skill-tag">LINE公式アカウント</span>
+  </div><div class="skill-card cat-2" onclick="openModal(41)">
+    <div class="skill-number"><span class="dot"></span>Skill 41</div>
+    <h3>LINE登録後の初回ステップ（Day0）作成</h3>
+    <div class="skill-preview">LINE登録直後に届く「Day0メッセージ」を作成してください。特典の受け渡し・自己紹介・次に来るメッセージの予告を含めた構成で、200〜300文字にまとめてください。
+
+アカウントテーマ：___
+特典：___...</div>
+    <span class="skill-tag">LINE公式アカウント</span>
+  </div><div class="skill-card cat-2" onclick="openModal(42)">
+    <div class="skill-number"><span class="dot"></span>Skill 42</div>
+    <h3>LINEブロック防止の価値提供メッセージ作成</h3>
+    <div class="skill-preview">ブロックされにくく、むしろ読みたいと思われるLINEメッセージを作成してください。
+
+テーマ：___
+
+役立つ情報・本音トーク・読者への感謝のいずれかを軸に、距離感の近い200文字のメッセージにしてください。...</div>
+    <span class="skill-tag">LINE公式アカウント</span>
+  </div></div>
+      </div><div class="category-section cat-3">
+        <div class="category-section-title">🎯 商品設計・販売戦略 <span style="color:var(--text-muted);font-size:14px;font-weight:400;margin-left:4px;">43〜56</span></div>
+        <div class="skills-grid"><div class="skill-card cat-3" onclick="openModal(43)">
+    <div class="skill-number"><span class="dot"></span>Skill 43</div>
+    <h3>商品コンセプト設計</h3>
+    <div class="skill-preview">以下の条件で販売する商品のコンセプトを設計してください。
+
+ジャンル：___
+ターゲット：___
+価格帯：___
+提供形式：___
+
+商品名候補・ベネフィット・差別化ポイント・購入後の変化を整理してください。...</div>
+    <span class="skill-tag">商品設計・販売戦略</span>
+  </div><div class="skill-card cat-3" onclick="openModal(44)">
+    <div class="skill-number"><span class="dot"></span>Skill 44</div>
+    <h3>商品ラインナップ（価格帯設計）</h3>
+    <div class="skill-preview">「___」で複数商品を展開するための価格帯別ラインナップを設計してください。
+
+フロントエンド（低価格）・ミドル・バックエンド（高額）の3段階で、各商品の内容・価格・役割・販売の流れを提案してください。...</div>
+    <span class="skill-tag">商品設計・販売戦略</span>
+  </div><div class="skill-card cat-3" onclick="openModal(45)">
+    <div class="skill-number"><span class="dot"></span>Skill 45</div>
+    <h3>商品の売れるキャッチコピー作成</h3>
+    <div class="skill-preview">「___」のキャッチコピーを5パターン作成してください。
+
+商品内容：___
+ターゲット：___
+
+ベネフィット訴求・数字訴求・痛みの解消訴求など、異なるアプローチのコピーを出力してください。...</div>
+    <span class="skill-tag">商品設計・販売戦略</span>
+  </div><div class="skill-card cat-3" onclick="openModal(46)">
+    <div class="skill-number"><span class="dot"></span>Skill 46</div>
+    <h3>商品販売ページ（セールスレター）構成設計</h3>
+    <div class="skill-preview">「___」の販売ページの構成を設計してください。
+
+ヘッドライン・問題提起・共感・解決策提示・商品説明・価格・購入者の声・FAQ・CTA の流れで設計し、各セクションに入れるべき内容を具体的に提示してください。...</div>
+    <span class="skill-tag">商品設計・販売戦略</span>
+  </div><div class="skill-card cat-3" onclick="openModal(47)">
+    <div class="skill-number"><span class="dot"></span>Skill 47</div>
+    <h3>商品FAQリスト作成</h3>
+    <div class="skill-preview">「___」を購入検討中の読者が感じる疑問・不安を想定したFAQを10個作成してください。
+
+各質問に対する回答も含め、購入の背中を押せる内容にしてください。...</div>
+    <span class="skill-tag">商品設計・販売戦略</span>
+  </div><div class="skill-card cat-3" onclick="openModal(48)">
+    <div class="skill-number"><span class="dot"></span>Skill 48</div>
+    <h3>購入者の声（口コミ）テンプレート作成</h3>
+    <div class="skill-preview">「___」の購入者にアンケートを取るときの質問テンプレートを作成してください。
+
+回答してもらった内容を、販売ページに使える「お客様の声」形式にまとめるためのフォーマットも一緒に出力してください。...</div>
+    <span class="skill-tag">商品設計・販売戦略</span>
+  </div><div class="skill-card cat-3" onclick="openModal(49)">
+    <div class="skill-number"><span class="dot"></span>Skill 49</div>
+    <h3>商品のベネフィット言語化</h3>
+    <div class="skill-preview">「___」の特徴・機能を、ターゲットが感じるベネフィット（得られる感情・変化・結果）に変換してください。
+
+特徴：___
+
+「〜できる」「〜になれる」という言葉で言い換え、読者目線のコピーを出力してください。...</div>
+    <span class="skill-tag">商品設計・販売戦略</span>
+  </div><div class="skill-card cat-3" onclick="openModal(50)">
+    <div class="skill-number"><span class="dot"></span>Skill 50</div>
+    <h3>期間限定セールの企画設計</h3>
+    <div class="skill-preview">「___」の期間限定セールを企画してください。
+
+通常価格：___
+セール価格・割引率・期間・特典・理由付けをセットで設計し、不自然にならない値引き理由も考えてください。...</div>
+    <span class="skill-tag">商品設計・販売戦略</span>
+  </div><div class="skill-card cat-3" onclick="openModal(51)">
+    <div class="skill-number"><span class="dot"></span>Skill 51</div>
+    <h3>初回購入者向けアップセル設計</h3>
+    <div class="skill-preview">「___」を購入した人に次に提案するアップセル商品の設計を手伝ってください。
+
+購入者の状況：___
+次に提案する商品：___
+
+タイミング・提案文・断られた場合の次の手まで設計してください。...</div>
+    <span class="skill-tag">商品設計・販売戦略</span>
+  </div><div class="skill-card cat-3" onclick="openModal(52)">
+    <div class="skill-number"><span class="dot"></span>Skill 52</div>
+    <h3>競合調査テンプレート</h3>
+    <div class="skill-preview">「___」の競合アカウント・商品を分析するためのリサーチシートを作成してください。
+
+調査項目：価格・コンテンツ内容・SNS戦略・強み・弱み・差別化ポイントを表形式で整理できるテンプレートを出力してください。...</div>
+    <span class="skill-tag">商品設計・販売戦略</span>
+  </div><div class="skill-card cat-3" onclick="openModal(53)">
+    <div class="skill-number"><span class="dot"></span>Skill 53</div>
+    <h3>ターゲットペルソナ設計</h3>
+    <div class="skill-preview">「___」の商品を売るためのペルソナ（理想の顧客像）を詳しく設計してください。
+
+年齢・性別・職業・悩み・欲求・情報収集の場所・購買行動・よく使うSNSまで具体的に描いてください。...</div>
+    <span class="skill-tag">商品設計・販売戦略</span>
+  </div><div class="skill-card cat-3" onclick="openModal(54)">
+    <div class="skill-number"><span class="dot"></span>Skill 54</div>
+    <h3>コンテンツ販売のファネル設計</h3>
+    <div class="skill-preview">「___」でコンテンツ販売するための集客→教育→販売のファネルを設計してください。
+
+SNSからLINE登録→ステップ配信→商品購入 の流れを、各ステップのコンテンツ・目的・KPIと合わせて整理してください。...</div>
+    <span class="skill-tag">商品設計・販売戦略</span>
+  </div><div class="skill-card cat-3" onclick="openModal(55)">
+    <div class="skill-number"><span class="dot"></span>Skill 55</div>
+    <h3>価格設定の考え方レクチャー</h3>
+    <div class="skill-preview">「___」の適切な価格の決め方を教えてください。
+
+競合価格・提供価値・ターゲットの購買力・ポジショニングの観点から、適正価格と価格改定のタイミングを考えてください。...</div>
+    <span class="skill-tag">商品設計・販売戦略</span>
+  </div><div class="skill-card cat-3" onclick="openModal(56)">
+    <div class="skill-number"><span class="dot"></span>Skill 56</div>
+    <h3>商品改善ヒアリングシート作成</h3>
+    <div class="skill-preview">既存の商品・サービスを改善するために購入者にヒアリングするシートを作成してください。
+
+商品：___
+知りたいこと：___
+
+回答しやすい質問形式で10項目以内にまとめてください。...</div>
+    <span class="skill-tag">商品設計・販売戦略</span>
+  </div></div>
+      </div><div class="category-section cat-4">
+        <div class="category-section-title">📈 集客・マーケティング戦略 <span style="color:var(--text-muted);font-size:14px;font-weight:400;margin-left:4px;">57〜68</span></div>
+        <div class="skills-grid"><div class="skill-card cat-4" onclick="openModal(57)">
+    <div class="skill-number"><span class="dot"></span>Skill 57</div>
+    <h3>30日間コンテンツ投稿計画作成</h3>
+    <div class="skill-preview">「___」で30日間のSNS投稿計画を作成してください。
+
+目的：___
+プラットフォーム：___
+
+各日の投稿テーマ・投稿タイプ（教育/共感/販売/エンゲージメント）を一覧で出力してください。...</div>
+    <span class="skill-tag">集客・マーケティング戦略</span>
+  </div><div class="skill-card cat-4" onclick="openModal(58)">
+    <div class="skill-number"><span class="dot"></span>Skill 58</div>
+    <h3>フォロワー増加戦略立案</h3>
+    <div class="skill-preview">「___」のアカウントでフォロワーを増やすための戦略を立案してください。
+
+現状：___
+目標：___
+
+コンテンツ戦略・投稿頻度・バズりやすいテーマ・他アカウントとの連携方法を提案してください。...</div>
+    <span class="skill-tag">集客・マーケティング戦略</span>
+  </div><div class="skill-card cat-4" onclick="openModal(59)">
+    <div class="skill-number"><span class="dot"></span>Skill 59</div>
+    <h3>無料プレゼント（リードマグネット）企画</h3>
+    <div class="skill-preview">LINE登録者を増やすための無料プレゼント企画を5つ提案してください。
+
+ジャンル：___
+ターゲット：___
+
+各プレゼントの内容・形式（PDF/動画/テンプレートなど）・魅力的なタイトルを出してください。...</div>
+    <span class="skill-tag">集客・マーケティング戦略</span>
+  </div><div class="skill-card cat-4" onclick="openModal(60)">
+    <div class="skill-number"><span class="dot"></span>Skill 60</div>
+    <h3>コラボ・相互紹介の提案文作成</h3>
+    <div class="skill-preview">「___」で相互フォロー・相互紹介をお願いするDMの文章を作成してください。
+
+自分のアカウント：___
+相手への提案内容：___
+
+押しつけがましくなく、相手にとってのメリットを伝える200文字程度のメッセージにしてください。...</div>
+    <span class="skill-tag">集客・マーケティング戦略</span>
+  </div><div class="skill-card cat-4" onclick="openModal(61)">
+    <div class="skill-number"><span class="dot"></span>Skill 61</div>
+    <h3>Threads プロフィール文最適化</h3>
+    <div class="skill-preview">Threadsのプロフィール文を最適化してください。
+
+現在のプロフィール：___
+ジャンル：___
+ターゲット：___
+
+フォローしたくなる・LINE登録したくなるプロフィール文に改善してください。150文字以内。...</div>
+    <span class="skill-tag">集客・マーケティング戦略</span>
+  </div><div class="skill-card cat-4" onclick="openModal(62)">
+    <div class="skill-number"><span class="dot"></span>Skill 62</div>
+    <h3>ハッシュタグ戦略設計</h3>
+    <div class="skill-preview">「___」の投稿に使うハッシュタグ戦略を設計してください。
+
+大カテゴリ・中カテゴリ・ニッチの3層構造で各5〜10個のハッシュタグを提案し、どの投稿にどう使うかも説明してください。...</div>
+    <span class="skill-tag">集客・マーケティング戦略</span>
+  </div><div class="skill-card cat-4" onclick="openModal(63)">
+    <div class="skill-number"><span class="dot"></span>Skill 63</div>
+    <h3>バイラルコンテンツ企画</h3>
+    <div class="skill-preview">「___」で拡散・保存されやすいバイラルコンテンツのアイデアを10個出してください。
+
+形式（テキスト投稿・図解・リスト・比較など）と、なぜ拡散されやすいかの理由も添えてください。...</div>
+    <span class="skill-tag">集客・マーケティング戦略</span>
+  </div><div class="skill-card cat-4" onclick="openModal(64)">
+    <div class="skill-number"><span class="dot"></span>Skill 64</div>
+    <h3>集客→販売の自動化シナリオ設計</h3>
+    <div class="skill-preview">「___」を自動で販売するためのSNS→LINE→noteの自動化シナリオを設計してください。
+
+各ステップで使うコンテンツ・タイミング・ゴールを整理し、手動作業を最小限にする流れを作ってください。...</div>
+    <span class="skill-tag">集客・マーケティング戦略</span>
+  </div><div class="skill-card cat-4" onclick="openModal(65)">
+    <div class="skill-number"><span class="dot"></span>Skill 65</div>
+    <h3>インフルエンサーマーケティング戦略</h3>
+    <div class="skill-preview">「___」をインフルエンサーに紹介してもらうための戦略と、依頼メッセージのテンプレートを作成してください。
+
+対象：___
+報酬形式：___...</div>
+    <span class="skill-tag">集客・マーケティング戦略</span>
+  </div><div class="skill-card cat-4" onclick="openModal(66)">
+    <div class="skill-number"><span class="dot"></span>Skill 66</div>
+    <h3>メールマガジン移行戦略設計</h3>
+    <div class="skill-preview">LINE読者をメールマガジン（または別媒体）に移行させる戦略を設計してください。
+
+移行先：___
+移行の理由・メリット・移行促進のメッセージ文まで設計してください。...</div>
+    <span class="skill-tag">集客・マーケティング戦略</span>
+  </div><div class="skill-card cat-4" onclick="openModal(67)">
+    <div class="skill-number"><span class="dot"></span>Skill 67</div>
+    <h3>アカウントリブランディング戦略</h3>
+    <div class="skill-preview">「___」から「___」にリブランディングする際の戦略と、フォロワーへの告知文を作成してください。
+
+既存フォロワーを離れさせず、新テーマでの再スタートを自然に進める方法を提案してください。...</div>
+    <span class="skill-tag">集客・マーケティング戦略</span>
+  </div><div class="skill-card cat-4" onclick="openModal(68)">
+    <div class="skill-number"><span class="dot"></span>Skill 68</div>
+    <h3>SEO記事→SNS集客の連携戦略</h3>
+    <div class="skill-preview">「___」でnoteやブログのSEO記事とSNS投稿を連携させて集客を最大化する戦略を設計してください。
+
+記事→SNS誘導→LINE登録→販売 の流れを、具体的なコンテンツ設計と合わせて出力してください。...</div>
+    <span class="skill-tag">集客・マーケティング戦略</span>
+  </div></div>
+      </div><div class="category-section cat-5">
+        <div class="category-section-title">🧠 心理学・コピーライティング <span style="color:var(--text-muted);font-size:14px;font-weight:400;margin-left:4px;">69〜80</span></div>
+        <div class="skills-grid"><div class="skill-card cat-5" onclick="openModal(69)">
+    <div class="skill-number"><span class="dot"></span>Skill 69</div>
+    <h3>損失回避コピー作成</h3>
+    <div class="skill-preview">「___」を、損失回避の心理を活用したコピーで表現してください。
+
+「今すぐ行動しなければ〜を失う」という視点で、読者の危機感に訴えながら誘導する文章を200文字で作成してください。...</div>
+    <span class="skill-tag">心理学・コピーライティング</span>
+  </div><div class="skill-card cat-5" onclick="openModal(70)">
+    <div class="skill-number"><span class="dot"></span>Skill 70</div>
+    <h3>社会的証明コピー作成</h3>
+    <div class="skill-preview">「___」の信頼性を高める社会的証明コピーを作成してください。
+
+購入者数・口コミ・メディア掲載・実績などを活用し、「みんなが選んでいる」と感じさせる文章を200文字で作成してください。...</div>
+    <span class="skill-tag">心理学・コピーライティング</span>
+  </div><div class="skill-card cat-5" onclick="openModal(71)">
+    <div class="skill-number"><span class="dot"></span>Skill 71</div>
+    <h3>希少性・限定性コピー作成</h3>
+    <div class="skill-preview">「___」に希少性・限定性を持たせるコピーを作成してください。
+
+個数制限・期間限定・特定条件など、嘘にならない範囲で「今買わなければ」と感じさせる文章を作成してください。...</div>
+    <span class="skill-tag">心理学・コピーライティング</span>
+  </div><div class="skill-card cat-5" onclick="openModal(72)">
+    <div class="skill-number"><span class="dot"></span>Skill 72</div>
+    <h3>PASONA構成セールス文作成</h3>
+    <div class="skill-preview">PASONA構成（問題→共感→解決→提案→行動）で「___」のセールス文を作成してください。
+
+商品：___
+ターゲット：___
+価格：___
+
+各要素を意識しながら、自然な流れで読める400〜500文字の文章にしてください。...</div>
+    <span class="skill-tag">心理学・コピーライティング</span>
+  </div><div class="skill-card cat-5" onclick="openModal(73)">
+    <div class="skill-number"><span class="dot"></span>Skill 73</div>
+    <h3>ストーリーセリング文作成</h3>
+    <div class="skill-preview">「___」をストーリー形式で売るセールス文を作成してください。
+
+主人公（購入前の自分 or お客様）の変化を物語形式で描き、共感→解決→行動の流れで300〜400文字の文章を作成してください。...</div>
+    <span class="skill-tag">心理学・コピーライティング</span>
+  </div><div class="skill-card cat-5" onclick="openModal(74)">
+    <div class="skill-number"><span class="dot"></span>Skill 74</div>
+    <h3>アンカリング価格提示文作成</h3>
+    <div class="skill-preview">「___」の価格を魅力的に見せるアンカリング（比較基準）を使ったコピーを作成してください。
+
+商品価格：___円
+比較対象：___
+
+「この価格でこれだけ得られる」と感じさせる表現にしてください。...</div>
+    <span class="skill-tag">心理学・コピーライティング</span>
+  </div><div class="skill-card cat-5" onclick="openModal(75)">
+    <div class="skill-number"><span class="dot"></span>Skill 75</div>
+    <h3>読者の心の声を代弁するコピー作成</h3>
+    <div class="skill-preview">「___」が心の中で感じているがうまく言語化できていない悩みや本音を代弁するコピーを作成してください。
+
+「あ、これ自分のことだ」と思わせる文章を5パターン出力してください。...</div>
+    <span class="skill-tag">心理学・コピーライティング</span>
+  </div><div class="skill-card cat-5" onclick="openModal(76)">
+    <div class="skill-number"><span class="dot"></span>Skill 76</div>
+    <h3>ベネフィット×感情訴求コピー作成</h3>
+    <div class="skill-preview">「___」を手に入れた後の理想の未来を、感情に訴えかけるコピーで表現してください。
+
+機能説明ではなく、「こんな自分になれる」「こんな感情が得られる」という変化を200文字で描いてください。...</div>
+    <span class="skill-tag">心理学・コピーライティング</span>
+  </div><div class="skill-card cat-5" onclick="openModal(77)">
+    <div class="skill-number"><span class="dot"></span>Skill 77</div>
+    <h3>反論処理コピー作成</h3>
+    <div class="skill-preview">「___」を買わない理由として読者が思い浮かべる反論を5つ想定し、それぞれの返し方を自然なコピー文として作成してください。
+
+価格・時間・スキル・信頼性・タイミングなど、よくある抵抗に対応してください。...</div>
+    <span class="skill-tag">心理学・コピーライティング</span>
+  </div><div class="skill-card cat-5" onclick="openModal(78)">
+    <div class="skill-number"><span class="dot"></span>Skill 78</div>
+    <h3>フォーミュラ型フック文ライブラリ作成</h3>
+    <div class="skill-preview">「___」で使えるフォーミュラ（型）別フック文を作成してください。
+
+①数字型、②疑問型、③禁止型、④暴露型、⑤共感型の5つのフォーミュラで各3パターン、計15個のフック文を出力してください。...</div>
+    <span class="skill-tag">心理学・コピーライティング</span>
+  </div><div class="skill-card cat-5" onclick="openModal(79)">
+    <div class="skill-number"><span class="dot"></span>Skill 79</div>
+    <h3>ニューロコピーライティング要素の組み込み</h3>
+    <div class="skill-preview">以下のコピーを、脳科学・行動経済学の知見（デフォルト効果・ツァイガルニク効果・フット・イン・ザ・ドア）を活用したバージョンにリライトしてください。
+
+元のコピー：___
+
+どの心理原則を使ったかも説明してください。...</div>
+    <span class="skill-tag">心理学・コピーライティング</span>
+  </div><div class="skill-card cat-5" onclick="openModal(80)">
+    <div class="skill-number"><span class="dot"></span>Skill 80</div>
+    <h3>ロングコピー（セールスレター本文）作成</h3>
+    <div class="skill-preview">「___」の販売ページに使うロングコピーを作成してください。
+
+ヘッドライン→共感→問題提起→解決策→商品説明→実績・証拠→価格提示→保証→CTA の流れで、800〜1000文字程度で作成してください。...</div>
+    <span class="skill-tag">心理学・コピーライティング</span>
+  </div></div>
+      </div><div class="category-section cat-6">
+        <div class="category-section-title">⚙️ 業務効率化・コンテンツ管理 <span style="color:var(--text-muted);font-size:14px;font-weight:400;margin-left:4px;">81〜92</span></div>
+        <div class="skills-grid"><div class="skill-card cat-6" onclick="openModal(81)">
+    <div class="skill-number"><span class="dot"></span>Skill 81</div>
+    <h3>コンテンツリサイクル計画作成</h3>
+    <div class="skill-preview">過去に作ったコンテンツを再活用するリサイクル計画を作成してください。
+
+既存コンテンツ：___
+
+1つのコンテンツを5〜7つの異なる媒体・形式に展開する方法を提案してください。...</div>
+    <span class="skill-tag">業務効率化・コンテンツ管理</span>
+  </div><div class="skill-card cat-6" onclick="openModal(82)">
+    <div class="skill-number"><span class="dot"></span>Skill 82</div>
+    <h3>月間コンテンツ売上レポートテンプレート</h3>
+    <div class="skill-preview">毎月の売上・コンテンツパフォーマンスを振り返るためのレポートテンプレートを作成してください。
+
+記録する項目：売上金額・商品別販売数・フォロワー増減・LINE登録数・投稿エンゲージメントなどをExcel/Notionに使える形式で出してくだ...</div>
+    <span class="skill-tag">業務効率化・コンテンツ管理</span>
+  </div><div class="skill-card cat-6" onclick="openModal(83)">
+    <div class="skill-number"><span class="dot"></span>Skill 83</div>
+    <h3>Notionコンテンツ管理データベース設計</h3>
+    <div class="skill-preview">コンテンツ販売ビジネスをNotionで管理するためのデータベース設計を提案してください。
+
+管理したいもの：投稿ストック・商品情報・顧客情報・売上記録・LINEシナリオ
+
+各データベースの項目・連携方法・日常の使い方を設計してください。...</div>
+    <span class="skill-tag">業務効率化・コンテンツ管理</span>
+  </div><div class="skill-card cat-6" onclick="openModal(84)">
+    <div class="skill-number"><span class="dot"></span>Skill 84</div>
+    <h3>投稿ネタ切れ解消アイデア出し</h3>
+    <div class="skill-preview">「___」の投稿ネタが思い浮かばないときのネタ出しをしてください。
+
+以下の軸で各5個、計30個のネタを出力してください。
+①よくある失敗談、②プロだけが知る裏側、③読者の疑問に答える、④業界の常識を覆す、⑤体験談・エピソード、⑥数字・デー...</div>
+    <span class="skill-tag">業務効率化・コンテンツ管理</span>
+  </div><div class="skill-card cat-6" onclick="openModal(85)">
+    <div class="skill-number"><span class="dot"></span>Skill 85</div>
+    <h3>コンテンツカレンダーテンプレート作成</h3>
+    <div class="skill-preview">1ヶ月分のコンテンツ投稿カレンダーテンプレートを作成してください。
+
+プラットフォーム：Threads / note / LINE公式
+投稿頻度：___
+
+日付・曜日・投稿テーマ・投稿タイプ・ゴール・完成状況を管理できる表形式で出力してくだ...</div>
+    <span class="skill-tag">業務効率化・コンテンツ管理</span>
+  </div><div class="skill-card cat-6" onclick="openModal(86)">
+    <div class="skill-number"><span class="dot"></span>Skill 86</div>
+    <h3>DM返信テンプレート作成</h3>
+    <div class="skill-preview">SNSのDMに届くよくある質問・問い合わせへの返信テンプレートを作成してください。
+
+よくある質問のカテゴリ：___
+
+各カテゴリ2〜3パターンの返信テンプレートを出してください。...</div>
+    <span class="skill-tag">業務効率化・コンテンツ管理</span>
+  </div><div class="skill-card cat-6" onclick="openModal(87)">
+    <div class="skill-number"><span class="dot"></span>Skill 87</div>
+    <h3>コンテンツ品質チェックリスト作成</h3>
+    <div class="skill-preview">公開前にコンテンツの品質を確認するチェックリストを作成してください。
+
+チェック対象：Threads投稿 / note記事 / LINEメッセージ
+
+各媒体別に「公開前に確認すべき10項目」をリスト形式で出力してください。...</div>
+    <span class="skill-tag">業務効率化・コンテンツ管理</span>
+  </div><div class="skill-card cat-6" onclick="openModal(88)">
+    <div class="skill-number"><span class="dot"></span>Skill 88</div>
+    <h3>アウトソース（外注）指示書テンプレート</h3>
+    <div class="skill-preview">ライターや編集者に外注する際に渡す指示書テンプレートを作成してください。
+
+外注するコンテンツ：___
+
+ライティングスタイル・禁止表現・納品形式・修正対応方法を含むテンプレートを作成してください。...</div>
+    <span class="skill-tag">業務効率化・コンテンツ管理</span>
+  </div><div class="skill-card cat-6" onclick="openModal(89)">
+    <div class="skill-number"><span class="dot"></span>Skill 89</div>
+    <h3>読者コミュニティ運営ルール設計</h3>
+    <div class="skill-preview">「___」の有料コミュニティ（LINEグループ / Discord / Slack）の運営ルールを設計してください。
+
+参加資格・禁止事項・投稿ルール・管理者の対応方針・退会処理まで整理してください。...</div>
+    <span class="skill-tag">業務効率化・コンテンツ管理</span>
+  </div><div class="skill-card cat-6" onclick="openModal(90)">
+    <div class="skill-number"><span class="dot"></span>Skill 90</div>
+    <h3>月1回の読者振り返り質問リスト</h3>
+    <div class="skill-preview">毎月1回、LINE読者に送る「現状確認・関係構築」のための質問メッセージを作成してください。
+
+目的：読者の変化・ニーズ把握・次の商品設計のヒント収集
+
+答えやすく、かつ役立つ情報が得られる5つの質問と配信文テンプレートを出力してください。...</div>
+    <span class="skill-tag">業務効率化・コンテンツ管理</span>
+  </div><div class="skill-card cat-6" onclick="openModal(91)">
+    <div class="skill-number"><span class="dot"></span>Skill 91</div>
+    <h3>ビジネス月間KPI設定シート</h3>
+    <div class="skill-preview">コンテンツ販売ビジネスの月間KPI（重要指標）を設定するシートを作成してください。
+
+設定する指標：フォロワー増加数・LINE登録数・記事PV・売上・購買転換率など
+
+各指標の目標値・計測方法・改善アクションの3点セットで整理してください。...</div>
+    <span class="skill-tag">業務効率化・コンテンツ管理</span>
+  </div><div class="skill-card cat-6" onclick="openModal(92)">
+    <div class="skill-number"><span class="dot"></span>Skill 92</div>
+    <h3>競合分析レポートテンプレート</h3>
+    <div class="skill-preview">「___」の競合3アカウントを分析するレポートを作成してください。
+
+分析項目：フォロワー数・投稿頻度・コンテンツの特徴・商品ラインナップ・価格帯・差別化ポイント
+
+各競合を比較した一覧表と、自分との差別化戦略の提案も含めてください。...</div>
+    <span class="skill-tag">業務効率化・コンテンツ管理</span>
+  </div></div>
+      </div><div class="category-section cat-7">
+        <div class="category-section-title">🎓 教育コンテンツ・コーチング <span style="color:var(--text-muted);font-size:14px;font-weight:400;margin-left:4px;">93〜100</span></div>
+        <div class="skills-grid"><div class="skill-card cat-7" onclick="openModal(93)">
+    <div class="skill-number"><span class="dot"></span>Skill 93</div>
+    <h3>初心者向け入門コンテンツ設計</h3>
+    <div class="skill-preview">「___」の完全初心者向け入門コンテンツを設計してください。
+
+全5回のステップ形式で、各回のテーマ・学ぶこと・課題を設計し、最終的に「___」に到達できる構成にしてください。...</div>
+    <span class="skill-tag">教育コンテンツ・コーチング</span>
+  </div><div class="skill-card cat-7" onclick="openModal(94)">
+    <div class="skill-number"><span class="dot"></span>Skill 94</div>
+    <h3>よくある失敗パターンと解決策リスト</h3>
+    <div class="skill-preview">「___」の初心者がよくやる失敗を10個リストアップし、各失敗の原因と具体的な解決策を提示してください。
+
+教育コンテンツ・note記事・LINE配信のネタとして使える形式で出力してください。...</div>
+    <span class="skill-tag">教育コンテンツ・コーチング</span>
+  </div><div class="skill-card cat-7" onclick="openModal(95)">
+    <div class="skill-number"><span class="dot"></span>Skill 95</div>
+    <h3>受講生の成果を引き出すコーチング質問集</h3>
+    <div class="skill-preview">「___」の受講生が行動できるようになるためのコーチング質問集を作成してください。
+
+状況別（スタート時・行き詰まり時・成果が出た時）に各5個、計15個の質問を出力してください。...</div>
+    <span class="skill-tag">教育コンテンツ・コーチング</span>
+  </div><div class="skill-card cat-7" onclick="openModal(96)">
+    <div class="skill-number"><span class="dot"></span>Skill 96</div>
+    <h3>無料相談→有料転換のトーク設計</h3>
+    <div class="skill-preview">無料相談を有料サービスの申し込みにつなげるためのトークフロー（会話の流れ）を設計してください。
+
+商品：___
+相談の流れ：ヒアリング→現状確認→課題提示→解決策提案→クロージング
+
+各フェーズで使う質問文と、よくある反論への返し方も含めて...</div>
+    <span class="skill-tag">教育コンテンツ・コーチング</span>
+  </div><div class="skill-card cat-7" onclick="openModal(97)">
+    <div class="skill-number"><span class="dot"></span>Skill 97</div>
+    <h3>コンサル・コーチング商品の体験セッション設計</h3>
+    <div class="skill-preview">体験セッション（お試し）を本申し込みにつなげるための設計をしてください。
+
+商品：___
+体験の内容・時間・使う質問・終了後のクロージングトークまで整理してください。...</div>
+    <span class="skill-tag">教育コンテンツ・コーチング</span>
+  </div><div class="skill-card cat-7" onclick="openModal(98)">
+    <div class="skill-number"><span class="dot"></span>Skill 98</div>
+    <h3>受講生の声の集め方＆活用マニュアル</h3>
+    <div class="skill-preview">「___」の購入者から効果的に「お客様の声」を集め、販売コンテンツに活用するマニュアルを作成してください。
+
+収集方法・タイミング・質問項目・整理方法・公開する際の注意点まで一覧でまとめてください。...</div>
+    <span class="skill-tag">教育コンテンツ・コーチング</span>
+  </div><div class="skill-card cat-7" onclick="openModal(99)">
+    <div class="skill-number"><span class="dot"></span>Skill 99</div>
+    <h3>ビジネス特化の読書・インプット計画作成</h3>
+    <div class="skill-preview">「___」のコンテンツ販売ビジネスに役立つインプット計画を作成してください。
+
+おすすめ書籍・学ぶべきスキル・参考にすべきアカウント・週ごとの学習時間の目安を整理し、インプットをアウトプット（コンテンツ化）につなげる方法も提案してください。...</div>
+    <span class="skill-tag">教育コンテンツ・コーチング</span>
+  </div><div class="skill-card cat-7" onclick="openModal(100)">
+    <div class="skill-number"><span class="dot"></span>Skill 100</div>
+    <h3>コンテンツ販売ビジネスの年間計画作成</h3>
+    <div class="skill-preview">「___」でコンテンツ販売をする1年間の事業計画を作成してください。
+
+Q1〜Q4の各目標・主力施策・商品リリース計画・SNS戦略・収入目標を整理し、月30万→月100万のステップアップ設計を提案してください。...</div>
+    <span class="skill-tag">教育コンテンツ・コーチング</span>
+  </div></div>
+      </div></div></main>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal" onclick="event.stopPropagation()"></div>
+</div>
+
+<script>
+const categories = [
+  { name: "SNS投稿", icon: "📱", range: "01〜15", desc: "Threadsを中心としたSNS投稿の作成・改善スキル" },
+  { name: "note記事", icon: "📝", range: "16〜28", desc: "note記事の企画・執筆・プロモーションスキル" },
+  { name: "LINE公式アカウント", icon: "💬", range: "29〜42", desc: "LINE公式の配信・シナリオ・関係構築スキル" },
+  { name: "商品設計・販売戦略", icon: "🎯", range: "43〜56", desc: "商品コンセプト設計から販売戦略までのスキル" },
+  { name: "集客・マーケティング戦略", icon: "📈", range: "57〜68", desc: "フォロワー獲得から自動化までの集客スキル" },
+  { name: "心理学・コピーライティング", icon: "🧠", range: "69〜80", desc: "行動心理学を活用したセールスコピースキル" },
+  { name: "業務効率化・コンテンツ管理", icon: "⚙️", range: "81〜92", desc: "コンテンツ運営の効率化・管理システムスキル" },
+  { name: "教育コンテンツ・コーチング", icon: "🎓", range: "93〜100", desc: "教育コンテンツ設計とコーチングスキル" }
+];
+
+const skills = [
+  // SNS投稿 01-15
+  { id: 1, cat: 0, title: "スレッズ投稿作成（基本）", prompt: "レオのライティングスタイルを使って、Threads投稿を200〜300文字で作成してください。テーマは「[テーマを入力]」です。共感フックから始め、問題提起→解決策→CTAの順で構成し、「します」「あります」「です」が連続しないよう自然なリズムで書いてください。" },
+  { id: 2, cat: 0, title: "バズるフック文作成", prompt: "Threadsでバズる冒頭フック文を5パターン作成してください。テーマは「[テーマ]」です。読者が思わず「続きを読みたい」と感じる、心理的ひっかかりを意識した1〜2行のフック文を出力してください。各パターンに使っている心理トリガー（好奇心・損失回避・共感など）も一言添えてください。" },
+  { id: 3, cat: 0, title: "note記事タイトル生成", prompt: "noteで読まれる記事タイトルを10個作成してください。テーマは「[テーマ]」、ターゲットは「[ターゲット]」です。数字・ベネフィット・ネガティブワードを組み合わせ、クリックしたくなるタイトルを出力してください。" },
+  { id: 4, cat: 0, title: "Threads連投（スレッド）構成", prompt: "Threadsのスレッド形式（連投）で使えるコンテンツを作成してください。テーマは「[テーマ]」です。1投稿目：フック、2〜4投稿目：本題の展開、5投稿目：CTA という構成で、各投稿150文字前後で作成してください。" },
+  { id: 5, cat: 0, title: "週間投稿カレンダー作成", prompt: "「[ジャンル]」をテーマにした、1週間分（7日間）のThreads投稿カレンダーを作成してください。各日のテーマ・投稿の狙い（認知/信頼/販売）・投稿文の要点を表形式でまとめてください。" },
+  { id: 6, cat: 0, title: "バズ投稿リライト", prompt: "以下の投稿文をリライトして、エンゲージメントが上がるバージョンに改善してください。\n\n[元の投稿文をここに貼る]\n\n改善ポイントも箇条書きで教えてください。" },
+  { id: 7, cat: 0, title: "教育コンテンツ投稿（価値提供型）", prompt: "「[テーマ]」について、フォロワーに価値を提供する教育型投稿を作成してください。300文字程度で、読んだだけで一つ学べる内容にしてください。「これ知らなかった」と思わせる切り口で書いてください。" },
+  { id: 8, cat: 0, title: "共感投稿（ペルソナの悩みを代弁）", prompt: "ターゲット「[ターゲット]」が感じている悩みや葛藤を代弁する共感投稿を200文字で作成してください。「あるある」と感じさせ、最後にそっとフォロー誘導するCTAを添えてください。" },
+  { id: 9, cat: 0, title: "実績・事例投稿", prompt: "以下の実績や事例をもとに、信頼構築に使えるThreads投稿を作成してください。\n\n実績：[実績内容を入力]\n\n読者に「この人についていきたい」と感じさせる書き方で、自慢にならないよう自然に数字や結果を伝えてください。" },
+  { id: 10, cat: 0, title: "Before/After投稿", prompt: "「[テーマ]」に関するBefore/After型の投稿を作成してください。変化前の状態→きっかけ→変化後の状態の流れで、読者が自分ゴトとして読める内容にしてください。300文字程度。" },
+  { id: 11, cat: 0, title: "問いかけ型エンゲージメント投稿", prompt: "フォロワーとの対話を生む「問いかけ型」投稿を作成してください。テーマは「[テーマ]」です。答えやすいシンプルな質問で終わらせ、コメントが来やすい設計にしてください。150文字程度。" },
+  { id: 12, cat: 0, title: "トレンド便乗投稿", prompt: "現在のSNSトレンドやニュースと「[自分のジャンル]」を結びつけた投稿を作成してください。トレンド：「[トレンドワード]」。読者の注目を引きながら、自分のビジネスへの関心に誘導してください。" },
+  { id: 13, cat: 0, title: "反論返し投稿（アンチ対策）", prompt: "「[自分のビジネス・商品]」に対してよくある反論や疑問を先手で取り上げ、誠実に返答する投稿を作成してください。「〜と思う人もいるかもしれません。でも〜」という構成で書いてください。" },
+  { id: 14, cat: 0, title: "日常エピソード→ビジネス学び変換投稿", prompt: "以下の日常エピソードから、ビジネスや生き方の学びを引き出す投稿を作成してください。\n\nエピソード：[エピソードを入力]\n\n読者が「そういう見方があるのか」と感じる変換を意識してください。" },
+  { id: 15, cat: 0, title: "フォロー誘導CTA投稿", prompt: "「[自分のアカウントテーマ]」についてのフォロー誘導投稿を作成してください。このアカウントをフォローすることで何が得られるかを明確に伝え、フォローしたくなるCTAで締めてください。200文字程度。" },
+  // note記事 16-28
+  { id: 16, cat: 1, title: "note無料記事（集客用）本文作成", prompt: "以下のテーマでnote無料記事を作成してください。\n\nテーマ：[テーマ]\nターゲット：[ターゲット]\n記事のゴール：[LINE登録誘導 or フォロワー獲得 など]\n\n1500〜2000文字で、【見出し】形式を使い、最後にCTAを入れてください。" },
+  { id: 17, cat: 1, title: "note有料記事（販売用）構成作成", prompt: "「[テーマ]」についての有料note記事の構成を作成してください。\n\nタイトル・無料パートの内容（何を見せて何を隠すか）・有料パートの章立て・購入後のCTAまでを設計してください。価格帯は「[価格]」円を想定しています。" },
+  { id: 18, cat: 1, title: "noteタイトルA/Bテスト", prompt: "同じ記事に対して、全く異なるアプローチのタイトルを2パターン作成し、それぞれの強みと想定クリック率を比較してください。\n\n記事テーマ：[テーマ]\nターゲット：[ターゲット]" },
+  { id: 19, cat: 1, title: "note記事冒頭（リード文）作成", prompt: "noteの記事冒頭（リード文）を300文字で作成してください。読者が「全部読みたい」と感じるような問題提起と、記事を読むことで得られるベネフィットを明示してください。\n\nテーマ：[テーマ]" },
+  { id: 20, cat: 1, title: "note記事見出し設計", prompt: "「[テーマ]」のnote記事の見出し構成を設計してください。全体の流れ・各見出しの役割・読者が得られる学びを一覧で出力してください。見出しは7〜10個程度で。" },
+  { id: 21, cat: 1, title: "note記事まとめ・CTA文作成", prompt: "noteの記事末尾に使えるまとめ文とCTA（行動喚起）を作成してください。\n\n記事テーマ：[テーマ]\n次のアクション：[LINE登録 / 有料記事購入 / フォロー など]\n\n200〜300文字程度で、押しつけがましくなく自然な誘導文にしてください。" },
+  { id: 22, cat: 1, title: "note固定記事（プロフィール代わり）作成", prompt: "自己紹介＋価値提供の固定note記事を作成してください。\n\n自分のプロフィール：[名前・実績・提供価値を入力]\n\n読者が初めてアカウントに来たとき「フォローしよう」「LINE登録しよう」と感じる内容にしてください。1000文字程度。" },
+  { id: 23, cat: 1, title: "note有料記事のサンプル（無料公開部分）作成", prompt: "有料noteのティザー（無料公開）部分を作成してください。\n\n有料記事のテーマ：[テーマ]\n価格：[価格]円\n\n読者が「続きが気になる」と感じ、購入ボタンを押したくなる引きで終わらせてください。700〜900文字。" },
+  { id: 24, cat: 1, title: "noteシリーズ記事の企画設計", prompt: "「[テーマ]」をシリーズ化したnote記事の企画を設計してください。全何記事構成か、各記事のタイトル・内容・無料/有料の分け方・シリーズ全体のゴールを提案してください。" },
+  { id: 25, cat: 1, title: "note記事の検索SEOタイトル最適化", prompt: "以下のnoteタイトルを、noteの検索で上位表示されやすいタイトルにリライトしてください。\n\n元のタイトル：[タイトルを入力]\nターゲットキーワード：[キーワードを入力]\n\nリライト後のタイトルと、改善理由も教えてください。" },
+  { id: 26, cat: 1, title: "note記事の書き出し3パターン比較", prompt: "「[テーマ]」のnote記事の書き出しを、以下の3スタイルで作成してください。\n\n①共感型（読者の悩みから入る）\n②問いかけ型（疑問文から入る）\n③ストーリー型（体験談から入る）\n\n各パターン150文字程度。" },
+  { id: 27, cat: 1, title: "note記事レビュー＆改善提案", prompt: "以下のnote記事（または草稿）を読んで、改善点と修正案を提案してください。\n\n[記事本文を貼り付け]\n\n評価ポイント：タイトル・冒頭・構成・CTA・文章リズムの5点で採点し、改善案を具体的に出してください。" },
+  { id: 28, cat: 1, title: "note記事のプロモーション投稿作成", prompt: "公開したnote記事をThreadsで宣伝する投稿を作成してください。\n\n記事タイトル：[タイトル]\n記事の要点：[3行程度で内容を入力]\n\n読みたくなる紹介文を200文字で作成し、記事URLへの誘導CTAで締めてください。" },
+  // LINE 29-42
+  { id: 29, cat: 2, title: "LINEウェルカムメッセージ作成", prompt: "LINE公式アカウントに登録した直後に届くウェルカムメッセージを作成してください。\n\nアカウントのテーマ：[テーマ]\n次のアクション（登録特典など）：[特典内容]\n\n親しみやすく、次の行動が明確に伝わる250文字程度のメッセージにしてください。" },
+  { id: 30, cat: 2, title: "LINEステップ配信（Day1〜7）設計", prompt: "「[商品・サービス名]」を販売するためのLINEステップ配信7日間のシナリオを設計してください。\n\n各日のテーマ・配信目的（信頼構築/教育/販売）・メッセージの要点を一覧で出力してください。" },
+  { id: 31, cat: 2, title: "LINEステップ配信メッセージ本文作成", prompt: "以下の条件でLINEステップ配信の本文を作成してください。\n\n配信日：Day[〇日目]\nテーマ：[テーマ]\n目的：[信頼構築 / 教育 / 販売]\n文字数：200〜250文字\n\n読者が返信したくなる問いかけか、次のアクションへ誘導するCTAで締めてください。" },
+  { id: 32, cat: 2, title: "LINEセールスメッセージ作成", prompt: "「[商品名]」を販売するLINEセールスメッセージをPASONA構成で作成してください。\n\n商品：[商品名]\n価格：[価格]\nターゲット：[ターゲット]\nセール期間：[期間 or 「なし」]\n\n500文字以内で、押しつけがましくなく行動を促す文章にしてください。" },
+  { id: 33, cat: 2, title: "LINE限定コンテンツ告知文作成", prompt: "LINE登録者限定で配布するコンテンツの告知メッセージを作成してください。\n\n配布物：[PDF / 動画 / テンプレート など]\n内容：[内容を入力]\n\n登録してよかったと感じさせる価値提供の文章を200文字で作成してください。" },
+  { id: 34, cat: 2, title: "LINE読者との関係構築メッセージ作成", prompt: "売り込みなしで読者との信頼関係を深めるLINEメッセージを作成してください。\n\nテーマ：[日常エピソード / ビジネスの学び / 読者への質問 など]\n文字数：150〜200文字\n\n自然な会話感覚で、返信が来やすい内容にしてください。" },
+  { id: 35, cat: 2, title: "LINEアンケートメッセージ作成", prompt: "読者のニーズを把握するためのLINEアンケートメッセージを作成してください。\n\n知りたいこと：[読者の悩み / 商品ニーズ / 満足度 など]\n\n回答しやすいシンプルな選択肢付きで、200文字以内にまとめてください。" },
+  { id: 36, cat: 2, title: "LINE登録誘導のThreads投稿作成", prompt: "LINE公式アカウントへの登録を促すThreads投稿を作成してください。\n\nLINE登録の特典：[特典内容]\nターゲット：[ターゲット]\n\nプレゼント感・限定感を出しながら、自然に登録を誘導する300文字の投稿にしてください。" },
+  { id: 37, cat: 2, title: "LINEリマインダーメッセージ（締め切り前）作成", prompt: "販売の締め切り前に送るリマインダーLINEメッセージを作成してください。\n\n商品：[商品名]\n締め切り：[日時]\n残り枠/残り時間：[状況]\n\n焦りを煽りすぎず、背中を押せる200文字程度のメッセージにしてください。" },
+  { id: 38, cat: 2, title: "LINE購入者フォローメッセージ作成", prompt: "商品購入直後に送るお礼＆フォローメッセージを作成してください。\n\n商品：[商品名]\n次のステップ：[コンテンツの使い方 / コミュニティ案内 など]\n\n購入して正解だったと感じさせる温かみのある250文字のメッセージにしてください。" },
+  { id: 39, cat: 2, title: "LINE定期配信ネタ出し", prompt: "「[ジャンル]」のLINE定期配信で使えるネタを30個出してください。\n\nネタのカテゴリ：教育系・共感系・販売系・エンタメ系に分類して一覧で出力してください。" },
+  { id: 40, cat: 2, title: "LINE読者の疑問・よくある質問への返答文作成", prompt: "「[商品・サービス]」に対してよく来る質問への回答メッセージを作成してください。\n\n質問：[質問内容を入力]\n\n読者の不安を払拭し、次のアクションにつながる返答文を200文字で作成してください。" },
+  { id: 41, cat: 2, title: "LINE登録後の初回ステップ（Day0）作成", prompt: "LINE登録直後に届く「Day0メッセージ」を作成してください。特典の受け渡し・自己紹介・次に来るメッセージの予告を含めた構成で、200〜300文字にまとめてください。\n\nアカウントテーマ：[テーマ]\n特典：[特典内容]" },
+  { id: 42, cat: 2, title: "LINEブロック防止の価値提供メッセージ作成", prompt: "ブロックされにくく、むしろ読みたいと思われるLINEメッセージを作成してください。\n\nテーマ：[テーマ]\n\n役立つ情報・本音トーク・読者への感謝のいずれかを軸に、距離感の近い200文字のメッセージにしてください。" },
+  // 商品設計・販売戦略 43-56
+  { id: 43, cat: 3, title: "商品コンセプト設計", prompt: "以下の条件で販売する商品のコンセプトを設計してください。\n\nジャンル：[ジャンル]\nターゲット：[ターゲット]\n価格帯：[価格]\n提供形式：[PDF / 動画 / コンサル / コミュニティ など]\n\n商品名候補・ベネフィット・差別化ポイント・購入後の変化を整理してください。" },
+  { id: 44, cat: 3, title: "商品ラインナップ（価格帯設計）", prompt: "「[ジャンル]」で複数商品を展開するための価格帯別ラインナップを設計してください。\n\nフロントエンド（低価格）・ミドル・バックエンド（高額）の3段階で、各商品の内容・価格・役割・販売の流れを提案してください。" },
+  { id: 45, cat: 3, title: "商品の売れるキャッチコピー作成", prompt: "「[商品名]」のキャッチコピーを5パターン作成してください。\n\n商品内容：[内容]\nターゲット：[ターゲット]\n\nベネフィット訴求・数字訴求・痛みの解消訴求など、異なるアプローチのコピーを出力してください。" },
+  { id: 46, cat: 3, title: "商品販売ページ（セールスレター）構成設計", prompt: "「[商品名]」の販売ページの構成を設計してください。\n\nヘッドライン・問題提起・共感・解決策提示・商品説明・価格・購入者の声・FAQ・CTA の流れで設計し、各セクションに入れるべき内容を具体的に提示してください。" },
+  { id: 47, cat: 3, title: "商品FAQリスト作成", prompt: "「[商品名]」を購入検討中の読者が感じる疑問・不安を想定したFAQを10個作成してください。\n\n各質問に対する回答も含め、購入の背中を押せる内容にしてください。" },
+  { id: 48, cat: 3, title: "購入者の声（口コミ）テンプレート作成", prompt: "「[商品名]」の購入者にアンケートを取るときの質問テンプレートを作成してください。\n\n回答してもらった内容を、販売ページに使える「お客様の声」形式にまとめるためのフォーマットも一緒に出力してください。" },
+  { id: 49, cat: 3, title: "商品のベネフィット言語化", prompt: "「[商品名]」の特徴・機能を、ターゲットが感じるベネフィット（得られる感情・変化・結果）に変換してください。\n\n特徴：[箇条書きで入力]\n\n「〜できる」「〜になれる」という言葉で言い換え、読者目線のコピーを出力してください。" },
+  { id: 50, cat: 3, title: "期間限定セールの企画設計", prompt: "「[商品名]」の期間限定セールを企画してください。\n\n通常価格：[価格]\nセール価格・割引率・期間・特典・理由付けをセットで設計し、不自然にならない値引き理由も考えてください。" },
+  { id: 51, cat: 3, title: "初回購入者向けアップセル設計", prompt: "「[フロントエンド商品]」を購入した人に次に提案するアップセル商品の設計を手伝ってください。\n\n購入者の状況：[どんな人が買っているか]\n次に提案する商品：[内容・価格帯]\n\nタイミング・提案文・断られた場合の次の手まで設計してください。" },
+  { id: 52, cat: 3, title: "競合調査テンプレート", prompt: "「[ジャンル]」の競合アカウント・商品を分析するためのリサーチシートを作成してください。\n\n調査項目：価格・コンテンツ内容・SNS戦略・強み・弱み・差別化ポイントを表形式で整理できるテンプレートを出力してください。" },
+  { id: 53, cat: 3, title: "ターゲットペルソナ設計", prompt: "「[ジャンル]」の商品を売るためのペルソナ（理想の顧客像）を詳しく設計してください。\n\n年齢・性別・職業・悩み・欲求・情報収集の場所・購買行動・よく使うSNSまで具体的に描いてください。" },
+  { id: 54, cat: 3, title: "コンテンツ販売のファネル設計", prompt: "「[ジャンル]」でコンテンツ販売するための集客→教育→販売のファネルを設計してください。\n\nSNSからLINE登録→ステップ配信→商品購入 の流れを、各ステップのコンテンツ・目的・KPIと合わせて整理してください。" },
+  { id: 55, cat: 3, title: "価格設定の考え方レクチャー", prompt: "「[商品内容]」の適切な価格の決め方を教えてください。\n\n競合価格・提供価値・ターゲットの購買力・ポジショニングの観点から、適正価格と価格改定のタイミングを考えてください。" },
+  { id: 56, cat: 3, title: "商品改善ヒアリングシート作成", prompt: "既存の商品・サービスを改善するために購入者にヒアリングするシートを作成してください。\n\n商品：[商品名]\n知りたいこと：[満足度・改善点・次に欲しい商品など]\n\n回答しやすい質問形式で10項目以内にまとめてください。" },
+  // 集客・マーケティング戦略 57-68
+  { id: 57, cat: 4, title: "30日間コンテンツ投稿計画作成", prompt: "「[ジャンル]」で30日間のSNS投稿計画を作成してください。\n\n目的：[認知拡大 / 信頼構築 / 販売]\nプラットフォーム：[Threads / note / LINE]\n\n各日の投稿テーマ・投稿タイプ（教育/共感/販売/エンゲージメント）を一覧で出力してください。" },
+  { id: 58, cat: 4, title: "フォロワー増加戦略立案", prompt: "「[ジャンル]」のアカウントでフォロワーを増やすための戦略を立案してください。\n\n現状：[現在のフォロワー数・投稿頻度]\n目標：[目標フォロワー数・期間]\n\nコンテンツ戦略・投稿頻度・バズりやすいテーマ・他アカウントとの連携方法を提案してください。" },
+  { id: 59, cat: 4, title: "無料プレゼント（リードマグネット）企画", prompt: "LINE登録者を増やすための無料プレゼント企画を5つ提案してください。\n\nジャンル：[ジャンル]\nターゲット：[ターゲット]\n\n各プレゼントの内容・形式（PDF/動画/テンプレートなど）・魅力的なタイトルを出してください。" },
+  { id: 60, cat: 4, title: "コラボ・相互紹介の提案文作成", prompt: "「[ジャンル]」で相互フォロー・相互紹介をお願いするDMの文章を作成してください。\n\n自分のアカウント：[簡単な紹介]\n相手への提案内容：[コラボ内容]\n\n押しつけがましくなく、相手にとってのメリットを伝える200文字程度のメッセージにしてください。" },
+  { id: 61, cat: 4, title: "Threads プロフィール文最適化", prompt: "Threadsのプロフィール文を最適化してください。\n\n現在のプロフィール：[現在のプロフィールを貼り付け]\nジャンル：[ジャンル]\nターゲット：[ターゲット]\n\nフォローしたくなる・LINE登録したくなるプロフィール文に改善してください。150文字以内。" },
+  { id: 62, cat: 4, title: "ハッシュタグ戦略設計", prompt: "「[ジャンル]」の投稿に使うハッシュタグ戦略を設計してください。\n\n大カテゴリ・中カテゴリ・ニッチの3層構造で各5〜10個のハッシュタグを提案し、どの投稿にどう使うかも説明してください。" },
+  { id: 63, cat: 4, title: "バイラルコンテンツ企画", prompt: "「[ジャンル]」で拡散・保存されやすいバイラルコンテンツのアイデアを10個出してください。\n\n形式（テキスト投稿・図解・リスト・比較など）と、なぜ拡散されやすいかの理由も添えてください。" },
+  { id: 64, cat: 4, title: "集客→販売の自動化シナリオ設計", prompt: "「[商品名]」を自動で販売するためのSNS→LINE→noteの自動化シナリオを設計してください。\n\n各ステップで使うコンテンツ・タイミング・ゴールを整理し、手動作業を最小限にする流れを作ってください。" },
+  { id: 65, cat: 4, title: "インフルエンサーマーケティング戦略", prompt: "「[商品名]」をインフルエンサーに紹介してもらうための戦略と、依頼メッセージのテンプレートを作成してください。\n\n対象：[フォロワー数・ジャンル]\n報酬形式：[固定報酬 / アフィリエイト / 現物提供]" },
+  { id: 66, cat: 4, title: "メールマガジン移行戦略設計", prompt: "LINE読者をメールマガジン（または別媒体）に移行させる戦略を設計してください。\n\n移行先：[メルマガ / Substack / Discord など]\n移行の理由・メリット・移行促進のメッセージ文まで設計してください。" },
+  { id: 67, cat: 4, title: "アカウントリブランディング戦略", prompt: "「[現在のアカウントテーマ]」から「[新しいテーマ]」にリブランディングする際の戦略と、フォロワーへの告知文を作成してください。\n\n既存フォロワーを離れさせず、新テーマでの再スタートを自然に進める方法を提案してください。" },
+  { id: 68, cat: 4, title: "SEO記事→SNS集客の連携戦略", prompt: "「[ジャンル]」でnoteやブログのSEO記事とSNS投稿を連携させて集客を最大化する戦略を設計してください。\n\n記事→SNS誘導→LINE登録→販売 の流れを、具体的なコンテンツ設計と合わせて出力してください。" },
+  // 心理学・コピーライティング 69-80
+  { id: 69, cat: 5, title: "損失回避コピー作成", prompt: "「[商品・サービス]」を、損失回避の心理を活用したコピーで表現してください。\n\n「今すぐ行動しなければ〜を失う」という視点で、読者の危機感に訴えながら誘導する文章を200文字で作成してください。" },
+  { id: 70, cat: 5, title: "社会的証明コピー作成", prompt: "「[商品名]」の信頼性を高める社会的証明コピーを作成してください。\n\n購入者数・口コミ・メディア掲載・実績などを活用し、「みんなが選んでいる」と感じさせる文章を200文字で作成してください。" },
+  { id: 71, cat: 5, title: "希少性・限定性コピー作成", prompt: "「[商品名]」に希少性・限定性を持たせるコピーを作成してください。\n\n個数制限・期間限定・特定条件など、嘘にならない範囲で「今買わなければ」と感じさせる文章を作成してください。" },
+  { id: 72, cat: 5, title: "PASONA構成セールス文作成", prompt: "PASONA構成（問題→共感→解決→提案→行動）で「[商品名]」のセールス文を作成してください。\n\n商品：[商品名]\nターゲット：[ターゲット]\n価格：[価格]\n\n各要素を意識しながら、自然な流れで読める400〜500文字の文章にしてください。" },
+  { id: 73, cat: 5, title: "ストーリーセリング文作成", prompt: "「[商品名]」をストーリー形式で売るセールス文を作成してください。\n\n主人公（購入前の自分 or お客様）の変化を物語形式で描き、共感→解決→行動の流れで300〜400文字の文章を作成してください。" },
+  { id: 74, cat: 5, title: "アンカリング価格提示文作成", prompt: "「[商品名]」の価格を魅力的に見せるアンカリング（比較基準）を使ったコピーを作成してください。\n\n商品価格：[価格]円\n比較対象：[高額サービス / 毎月かかるコスト / 時間コストなど]\n\n「この価格でこれだけ得られる」と感じさせる表現にしてください。" },
+  { id: 75, cat: 5, title: "読者の心の声を代弁するコピー作成", prompt: "「[ターゲット]」が心の中で感じているがうまく言語化できていない悩みや本音を代弁するコピーを作成してください。\n\n「あ、これ自分のことだ」と思わせる文章を5パターン出力してください。" },
+  { id: 76, cat: 5, title: "ベネフィット×感情訴求コピー作成", prompt: "「[商品名]」を手に入れた後の理想の未来を、感情に訴えかけるコピーで表現してください。\n\n機能説明ではなく、「こんな自分になれる」「こんな感情が得られる」という変化を200文字で描いてください。" },
+  { id: 77, cat: 5, title: "反論処理コピー作成", prompt: "「[商品名]」を買わない理由として読者が思い浮かべる反論を5つ想定し、それぞれの返し方を自然なコピー文として作成してください。\n\n価格・時間・スキル・信頼性・タイミングなど、よくある抵抗に対応してください。" },
+  { id: 78, cat: 5, title: "フォーミュラ型フック文ライブラリ作成", prompt: "「[ジャンル]」で使えるフォーミュラ（型）別フック文を作成してください。\n\n①数字型、②疑問型、③禁止型、④暴露型、⑤共感型の5つのフォーミュラで各3パターン、計15個のフック文を出力してください。" },
+  { id: 79, cat: 5, title: "ニューロコピーライティング要素の組み込み", prompt: "以下のコピーを、脳科学・行動経済学の知見（デフォルト効果・ツァイガルニク効果・フット・イン・ザ・ドア）を活用したバージョンにリライトしてください。\n\n元のコピー：[コピーを入力]\n\nどの心理原則を使ったかも説明してください。" },
+  { id: 80, cat: 5, title: "ロングコピー（セールスレター本文）作成", prompt: "「[商品名]」の販売ページに使うロングコピーを作成してください。\n\nヘッドライン→共感→問題提起→解決策→商品説明→実績・証拠→価格提示→保証→CTA の流れで、800〜1000文字程度で作成してください。" },
+  // 業務効率化 81-92
+  { id: 81, cat: 6, title: "コンテンツリサイクル計画作成", prompt: "過去に作ったコンテンツを再活用するリサイクル計画を作成してください。\n\n既存コンテンツ：[note記事 / Threads投稿 / PDF / 動画など]\n\n1つのコンテンツを5〜7つの異なる媒体・形式に展開する方法を提案してください。" },
+  { id: 82, cat: 6, title: "月間コンテンツ売上レポートテンプレート", prompt: "毎月の売上・コンテンツパフォーマンスを振り返るためのレポートテンプレートを作成してください。\n\n記録する項目：売上金額・商品別販売数・フォロワー増減・LINE登録数・投稿エンゲージメントなどをExcel/Notionに使える形式で出してください。" },
+  { id: 83, cat: 6, title: "Notionコンテンツ管理データベース設計", prompt: "コンテンツ販売ビジネスをNotionで管理するためのデータベース設計を提案してください。\n\n管理したいもの：投稿ストック・商品情報・顧客情報・売上記録・LINEシナリオ\n\n各データベースの項目・連携方法・日常の使い方を設計してください。" },
+  { id: 84, cat: 6, title: "投稿ネタ切れ解消アイデア出し", prompt: "「[ジャンル]」の投稿ネタが思い浮かばないときのネタ出しをしてください。\n\n以下の軸で各5個、計30個のネタを出力してください。\n①よくある失敗談、②プロだけが知る裏側、③読者の疑問に答える、④業界の常識を覆す、⑤体験談・エピソード、⑥数字・データを使った主張" },
+  { id: 85, cat: 6, title: "コンテンツカレンダーテンプレート作成", prompt: "1ヶ月分のコンテンツ投稿カレンダーテンプレートを作成してください。\n\nプラットフォーム：Threads / note / LINE公式\n投稿頻度：[週〇回]\n\n日付・曜日・投稿テーマ・投稿タイプ・ゴール・完成状況を管理できる表形式で出力してください。" },
+  { id: 86, cat: 6, title: "DM返信テンプレート作成", prompt: "SNSのDMに届くよくある質問・問い合わせへの返信テンプレートを作成してください。\n\nよくある質問のカテゴリ：[商品の質問 / 価格の質問 / コラボ依頼 / ネガティブコメントなど]\n\n各カテゴリ2〜3パターンの返信テンプレートを出してください。" },
+  { id: 87, cat: 6, title: "コンテンツ品質チェックリスト作成", prompt: "公開前にコンテンツの品質を確認するチェックリストを作成してください。\n\nチェック対象：Threads投稿 / note記事 / LINEメッセージ\n\n各媒体別に「公開前に確認すべき10項目」をリスト形式で出力してください。" },
+  { id: 88, cat: 6, title: "アウトソース（外注）指示書テンプレート", prompt: "ライターや編集者に外注する際に渡す指示書テンプレートを作成してください。\n\n外注するコンテンツ：[Threads投稿 / note記事 / LINEメッセージ]\n\nライティングスタイル・禁止表現・納品形式・修正対応方法を含むテンプレートを作成してください。" },
+  { id: 89, cat: 6, title: "読者コミュニティ運営ルール設計", prompt: "「[ジャンル]」の有料コミュニティ（LINEグループ / Discord / Slack）の運営ルールを設計してください。\n\n参加資格・禁止事項・投稿ルール・管理者の対応方針・退会処理まで整理してください。" },
+  { id: 90, cat: 6, title: "月1回の読者振り返り質問リスト", prompt: "毎月1回、LINE読者に送る「現状確認・関係構築」のための質問メッセージを作成してください。\n\n目的：読者の変化・ニーズ把握・次の商品設計のヒント収集\n\n答えやすく、かつ役立つ情報が得られる5つの質問と配信文テンプレートを出力してください。" },
+  { id: 91, cat: 6, title: "ビジネス月間KPI設定シート", prompt: "コンテンツ販売ビジネスの月間KPI（重要指標）を設定するシートを作成してください。\n\n設定する指標：フォロワー増加数・LINE登録数・記事PV・売上・購買転換率など\n\n各指標の目標値・計測方法・改善アクションの3点セットで整理してください。" },
+  { id: 92, cat: 6, title: "競合分析レポートテンプレート", prompt: "「[ジャンル]」の競合3アカウントを分析するレポートを作成してください。\n\n分析項目：フォロワー数・投稿頻度・コンテンツの特徴・商品ラインナップ・価格帯・差別化ポイント\n\n各競合を比較した一覧表と、自分との差別化戦略の提案も含めてください。" },
+  // 教育コンテンツ・コーチング 93-100
+  { id: 93, cat: 7, title: "初心者向け入門コンテンツ設計", prompt: "「[ジャンル]」の完全初心者向け入門コンテンツを設計してください。\n\n全5回のステップ形式で、各回のテーマ・学ぶこと・課題を設計し、最終的に「[目標]」に到達できる構成にしてください。" },
+  { id: 94, cat: 7, title: "よくある失敗パターンと解決策リスト", prompt: "「[ジャンル]」の初心者がよくやる失敗を10個リストアップし、各失敗の原因と具体的な解決策を提示してください。\n\n教育コンテンツ・note記事・LINE配信のネタとして使える形式で出力してください。" },
+  { id: 95, cat: 7, title: "受講生の成果を引き出すコーチング質問集", prompt: "「[商品・講座]」の受講生が行動できるようになるためのコーチング質問集を作成してください。\n\n状況別（スタート時・行き詰まり時・成果が出た時）に各5個、計15個の質問を出力してください。" },
+  { id: 96, cat: 7, title: "無料相談→有料転換のトーク設計", prompt: "無料相談を有料サービスの申し込みにつなげるためのトークフロー（会話の流れ）を設計してください。\n\n商品：[商品名・価格]\n相談の流れ：ヒアリング→現状確認→課題提示→解決策提案→クロージング\n\n各フェーズで使う質問文と、よくある反論への返し方も含めてください。" },
+  { id: 97, cat: 7, title: "コンサル・コーチング商品の体験セッション設計", prompt: "体験セッション（お試し）を本申し込みにつなげるための設計をしてください。\n\n商品：[商品名]\n体験の内容・時間・使う質問・終了後のクロージングトークまで整理してください。" },
+  { id: 98, cat: 7, title: "受講生の声の集め方＆活用マニュアル", prompt: "「[商品名]」の購入者から効果的に「お客様の声」を集め、販売コンテンツに活用するマニュアルを作成してください。\n\n収集方法・タイミング・質問項目・整理方法・公開する際の注意点まで一覧でまとめてください。" },
+  { id: 99, cat: 7, title: "ビジネス特化の読書・インプット計画作成", prompt: "「[ジャンル]」のコンテンツ販売ビジネスに役立つインプット計画を作成してください。\n\nおすすめ書籍・学ぶべきスキル・参考にすべきアカウント・週ごとの学習時間の目安を整理し、インプットをアウトプット（コンテンツ化）につなげる方法も提案してください。" },
+  { id: 100, cat: 7, title: "コンテンツ販売ビジネスの年間計画作成", prompt: "「[ジャンル]」でコンテンツ販売をする1年間の事業計画を作成してください。\n\nQ1〜Q4の各目標・主力施策・商品リリース計画・SNS戦略・収入目標を整理し、月30万→月100万のステップアップ設計を提案してください。" }
+];
+
+let currentCategory = -1; // -1 = all
+
+function buildSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  let html = '<div class="sidebar-section-title">カテゴリ</div>';
+  html += `<div class="nav-item ${currentCategory === -1 ? 'active' : ''} cat-0" onclick="selectCategory(-1)">
+    <div class="nav-icon" style="background:rgba(108,92,231,0.12);color:var(--accent-2);">☷</div>
+    <div><div class="nav-label">すべてのスキル</div><div class="nav-count">100 スキル</div></div>
+  </div>`;
+  categories.forEach((cat, i) => {
+    const count = skills.filter(s => s.cat === i).length;
+    html += `<div class="nav-item cat-${i} ${currentCategory === i ? 'active' : ''}" onclick="selectCategory(${i})">
+      <div class="nav-icon">${cat.icon}</div>
+      <div><div class="nav-label">${cat.name}</div><div class="nav-count">${count} スキル</div></div>
+    </div>`;
+  });
+  sidebar.innerHTML = html;
+}
+
+function renderSkillCard(skill) {
+  const cat = categories[skill.cat];
+  const num = String(skill.id).padStart(2, '0');
+  const preview = skill.prompt.replace(/\[.*?\]/g, '___').substring(0, 120) + '...';
+  return `<div class="skill-card cat-${skill.cat}" onclick="openModal(${skill.id})">
+    <div class="skill-number"><span class="dot"></span>Skill ${num}</div>
+    <h3>${skill.title}</h3>
+    <div class="skill-preview">${preview}</div>
+    <span class="skill-tag">${cat.name}</span>
+  </div>`;
+}
+
+function renderContent(filteredSkills) {
+  const main = document.getElementById('mainContent');
+  filteredSkills = filteredSkills || skills;
+  document.getElementById('visibleCount').textContent = filteredSkills.length;
+
+  if (filteredSkills.length === 0) {
+    main.innerHTML = '<div class="no-results fade-in"><div class="icon">🔍</div><p>該当するスキルが見つかりませんでした</p></div>';
+    return;
+  }
+
+  if (currentCategory === -1 && !document.getElementById('searchInput').value) {
+    // All view grouped by category
+    let html = '<div class="all-view fade-in">';
+    categories.forEach((cat, i) => {
+      const catSkills = filteredSkills.filter(s => s.cat === i);
+      if (catSkills.length === 0) return;
+      html += `<div class="category-section cat-${i}">
+        <div class="category-section-title">${cat.icon} ${cat.name} <span style="color:var(--text-muted);font-size:14px;font-weight:400;margin-left:4px;">${cat.range}</span></div>
+        <div class="skills-grid">${catSkills.map(renderSkillCard).join('')}</div>
+      </div>`;
+    });
+    html += '</div>';
+    main.innerHTML = html;
+  } else {
+    const cat = currentCategory >= 0 ? categories[currentCategory] : null;
+    let html = '<div class="fade-in">';
+    if (cat) {
+      html += `<div class="category-header cat-${currentCategory}">
+        <h1>${cat.icon} ${cat.name}</h1>
+        <p>${cat.desc}</p>
+      </div>`;
+    } else {
+      html += `<div class="category-header"><h1>検索結果</h1><p>${filteredSkills.length} 件のスキルが見つかりました</p></div>`;
+    }
+    html += `<div class="skills-grid">${filteredSkills.map(renderSkillCard).join('')}</div>`;
+    html += '</div>';
+    main.innerHTML = html;
+  }
+}
+
+function selectCategory(index) {
+  currentCategory = index;
+  document.getElementById('searchInput').value = '';
+  buildSidebar();
+  const filtered = index === -1 ? skills : skills.filter(s => s.cat === index);
+  renderContent(filtered);
+  document.getElementById('sidebar').classList.remove('mobile-open');
+}
+
+function handleSearch(query) {
+  query = query.trim().toLowerCase();
+  if (!query) {
+    renderContent(currentCategory === -1 ? skills : skills.filter(s => s.cat === currentCategory));
+    return;
+  }
+  const filtered = skills.filter(s =>
+    s.title.toLowerCase().includes(query) ||
+    s.prompt.toLowerCase().includes(query) ||
+    categories[s.cat].name.toLowerCase().includes(query)
+  );
+  currentCategory = -1;
+  buildSidebar();
+  renderContent(filtered);
+}
+
+function openModal(id) {
+  const skill = skills.find(s => s.id === id);
+  if (!skill) return;
+  const cat = categories[skill.cat];
+  const num = String(skill.id).padStart(2, '0');
+
+  const promptHtml = skill.prompt.replace(/\[([^\]]+)\]/g, '<span class="placeholder">[$1]</span>');
+
+  document.getElementById('modal').innerHTML = `
+    <div class="modal-header">
+      <div>
+        <h2>${skill.title}</h2>
+        <div class="modal-meta"><span class="dot cat-${skill.cat}" style="width:8px;height:8px;border-radius:50%;display:inline-block;background:var(--accent-${skill.cat + 1 > 8 ? 1 : skill.cat + 1});"></span> ${cat.name} / Skill ${num}</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="prompt-label">プロンプト</div>
+      <div class="prompt-text">${promptHtml}</div>
+      <button class="copy-btn" onclick="copyPrompt(${id}, this)">
+        <span>📋</span> プロンプトをコピー
+      </button>
+    </div>
+  `;
+
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function copyPrompt(id, btn) {
+  const skill = skills.find(s => s.id === id);
+  navigator.clipboard.writeText(skill.prompt).then(() => {
+    btn.classList.add('copied');
+    btn.innerHTML = '<span>✓</span> コピーしました';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = '<span>📋</span> プロンプトをコピー';
+    }, 2000);
+  });
+}
+
+function toggleMobileNav() {
+  document.getElementById('sidebar').classList.toggle('mobile-open');
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+  if (e.key === '/' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT') {
+    e.preventDefault();
+    document.getElementById('searchInput').focus();
+  }
+});
+
+function downloadHTML() {
+  const html = document.documentElement.outerHTML;
+  const blob = new Blob(['<!DOCTYPE html>\n' + html], { type: 'text/html; charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'skill-library-100.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// Init
+buildSidebar();
+renderContent();
+</script>
+
+
+</body></html>
